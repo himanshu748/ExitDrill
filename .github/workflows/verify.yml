@@ -1,0 +1,29 @@
+name: Verify ExitDrill
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Compile and deploy disposable fixtures
+        run: |
+          npm run fixtures:compile
+          npm run chain:start > /tmp/exitdrill-anvil.log 2>&1 &
+          node --input-type=module -e 'for(let n=0;n<60;n++){try{const r=await fetch("http://127.0.0.1:8545",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"eth_chainId",params:[]})});if(r.ok)break;}catch{}if(n===59)process.exit(1);await new Promise(r=>setTimeout(r,500));}'
+          npm run fixtures:deploy
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run verify:fixtures
+      - run: npm run verify:gas
+      - run: npm run build
+      - run: npm run verify:kit
+      - run: npm run format:check
+      - run: npm audit --audit-level=high
