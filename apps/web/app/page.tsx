@@ -152,7 +152,11 @@ export default function Home() {
   async function saveKit() {
     setBusy(true);
     try {
-      const res = await fetch('/v1/drills/' + report.id + '/kit', { method: 'POST' });
+      const res = await fetch('/v1/drills/' + report.id + '/kit', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: '{}',
+      });
       if (!res.ok) throw Error('Kit packaging failed. Your completed rehearsal is unchanged.');
       const url = URL.createObjectURL(await res.blob());
       const a = document.createElement('a');
@@ -163,6 +167,7 @@ export default function Home() {
       setSaved(true);
       setExportOpen(false);
     } catch (e: any) {
+      setExportOpen(false);
       setError(e.message);
     } finally {
       setBusy(false);

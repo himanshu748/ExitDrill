@@ -1,11 +1,11 @@
 {
   "url": "https://jhahimanshu653--exitdrill-web.modal.run",
-  "verifiedAt": "2026-09-19T10:17:02.190Z",
+  "verifiedAt": "2026-09-19T10:26:07.879Z",
   "receipts": [
     {
       "schemaVersion": 1,
-      "id": "da75a0fd-12bf-437c-9647-da8ba02a9ee9",
-      "createdAt": "2026-09-19T10:16:55.522Z",
+      "id": "67433d26-ef53-4873-a912-9a25fd0f2bcb",
+      "createdAt": "2026-09-19T10:25:56.229Z",
       "verdict": "PASS",
       "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
       "evidenceLevel": "FORK_EXECUTED",
@@ -35,7 +35,7 @@
           "number": "13",
           "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
           "timestamp": "2026-09-19T10:16:48.000Z",
-          "observedAt": "2026-09-19T10:16:54.814Z"
+          "observedAt": "2026-09-19T10:25:55.590Z"
         },
         "sharesRaw": "1000000000000000000000",
         "maxRedeemRaw": "1000000000000000000000",
@@ -63,23 +63,23 @@
       "steps": [
         {
           "stage": "Validate position",
-          "at": "2026-09-19T10:16:55.522Z"
+          "at": "2026-09-19T10:25:56.229Z"
         },
         {
           "stage": "Prepare isolated fork",
-          "at": "2026-09-19T10:16:55.527Z"
+          "at": "2026-09-19T10:25:56.232Z"
         },
         {
           "stage": "Execute exact redemption",
-          "at": "2026-09-19T10:16:55.924Z"
+          "at": "2026-09-19T10:25:56.489Z"
         },
         {
           "stage": "Verify balances and event",
-          "at": "2026-09-19T10:16:55.928Z"
+          "at": "2026-09-19T10:25:56.493Z"
         },
         {
           "stage": "Evidence complete",
-          "at": "2026-09-19T10:16:55.935Z"
+          "at": "2026-09-19T10:25:56.500Z"
         }
       ],
       "adjustments": [],
@@ -117,8 +117,8 @@
     },
     {
       "schemaVersion": 1,
-      "id": "a35ce3e2-bcfd-479e-a29b-1c886ca3dfba",
-      "createdAt": "2026-09-19T10:16:58.527Z",
+      "id": "0e8be64c-93b3-4874-9e3c-d641d2d721bb",
+      "createdAt": "2026-09-19T10:25:59.286Z",
       "verdict": "BLOCKED",
       "reason": "Requested shares exceed the observed redemption limit.",
       "evidenceLevel": "READS_ONLY",
@@ -148,7 +148,7 @@
           "number": "13",
           "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
           "timestamp": "2026-09-19T10:16:48.000Z",
-          "observedAt": "2026-09-19T10:16:58.009Z"
+          "observedAt": "2026-09-19T10:25:58.736Z"
         },
         "sharesRaw": "1000000000000000000000",
         "maxRedeemRaw": "0",
@@ -176,7 +176,7 @@
       "steps": [
         {
           "stage": "Validate position",
-          "at": "2026-09-19T10:16:58.527Z"
+          "at": "2026-09-19T10:25:59.286Z"
         }
       ],
       "adjustments": [],
@@ -191,8 +191,8 @@
     },
     {
       "schemaVersion": 1,
-      "id": "da35cb86-cffb-43a6-bb11-1b8c6932278c",
-      "createdAt": "2026-09-19T10:17:00.030Z",
+      "id": "893ea075-bb11-4d4e-9c22-2fd23405ac4e",
+      "createdAt": "2026-09-19T10:26:01.088Z",
       "verdict": "PASS",
       "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
       "evidenceLevel": "FORK_EXECUTED",
@@ -222,7 +222,7 @@
           "number": "13",
           "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
           "timestamp": "2026-09-19T10:16:48.000Z",
-          "observedAt": "2026-09-19T10:16:59.518Z"
+          "observedAt": "2026-09-19T10:26:00.246Z"
         },
         "sharesRaw": "1000000000000000000000",
         "maxRedeemRaw": "25000000000000000000",
@@ -250,23 +250,23 @@
       "steps": [
         {
           "stage": "Validate position",
-          "at": "2026-09-19T10:17:00.030Z"
+          "at": "2026-09-19T10:26:01.088Z"
         },
         {
           "stage": "Prepare isolated fork",
-          "at": "2026-09-19T10:17:00.033Z"
+          "at": "2026-09-19T10:26:01.090Z"
         },
         {
           "stage": "Execute exact redemption",
-          "at": "2026-09-19T10:17:00.293Z"
+          "at": "2026-09-19T10:26:01.356Z"
         },
         {
           "stage": "Verify balances and event",
-          "at": "2026-09-19T10:17:00.296Z"
+          "at": "2026-09-19T10:26:01.359Z"
         },
         {
           "stage": "Evidence complete",
-          "at": "2026-09-19T10:17:00.303Z"
+          "at": "2026-09-19T10:26:01.365Z"
         }
       ],
       "adjustments": [],
@@ -304,8 +304,8 @@
     },
     {
       "schemaVersion": 1,
-      "id": "7f7f98da-f9d3-4be4-9f35-433a311b52f0",
-      "createdAt": "2026-09-19T10:17:01.533Z",
+      "id": "1f72dc40-9d8c-4a5e-a084-ae70beb9beb5",
+      "createdAt": "2026-09-19T10:26:04.995Z",
       "verdict": "BLOCKED",
       "reason": "The exact redemption call reverted in the private fork.",
       "evidenceLevel": "CALL_PREFLIGHT",
@@ -335,7 +335,7 @@
           "number": "13",
           "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
           "timestamp": "2026-09-19T10:16:48.000Z",
-          "observedAt": "2026-09-19T10:17:00.994Z"
+          "observedAt": "2026-09-19T10:26:04.284Z"
         },
         "sharesRaw": "1000000000000000000000",
         "maxRedeemRaw": "1000000000000000000000",
@@ -363,11 +363,11 @@
       "steps": [
         {
           "stage": "Validate position",
-          "at": "2026-09-19T10:17:01.533Z"
+          "at": "2026-09-19T10:26:04.995Z"
         },
         {
           "stage": "Prepare isolated fork",
-          "at": "2026-09-19T10:17:01.535Z"
+          "at": "2026-09-19T10:26:04.997Z"
         }
       ],
       "adjustments": [],

@@ -27,6 +27,17 @@ for (const [i, expected] of ['PASS', 'BLOCKED', 'PASS', 'BLOCKED'].entries()) {
     if (result.receipt) {
       console.log(i, result.receipt.verdict, result.receipt.reason);
       evidence.push(result.receipt);
+      if (result.receipt.verdict === 'PASS') {
+        const zip = await fetch(base + '/v1/drills/' + job.id + '/kit', {
+          method: 'POST',
+          headers: { origin: base, cookie, 'content-type': 'application/json' },
+          body: '{}',
+        });
+        if (!zip.ok) throw new Error('Hosted kit export: ' + zip.status + ' ' + (await zip.text()));
+        const data = new Uint8Array(await zip.arrayBuffer());
+        if (data[0] !== 80 || data[1] !== 75) throw new Error('Invalid kit ZIP');
+        console.log('Kit export bytes', data.length);
+      }
       if (result.receipt.verdict !== expected) throw Error('Unexpected hosted verdict');
       break;
     }
