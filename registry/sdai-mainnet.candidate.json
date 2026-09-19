@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "registryId": "sdai-mainnet",
+  "enabled": false,
+  "status": "candidate",
+  "adapterId": "erc4626-direct-redeem",
+  "adapterVersion": "0.1.0-unvalidated",
+  "label": "Savings DAI (sDAI)",
+  "sourceChainId": 1,
+  "target": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+  "operation": "redeem",
+  "shareDecimals": 18,
+  "published": {
+    "commit": "665879762f8b5df5d234463f45d1d6a49bd4fbeb",
+    "source": "https://github.com/sky-ecosystem/sdai",
+    "readme": "https://raw.githubusercontent.com/sky-ecosystem/sdai/master/README.md",
+    "contractSource": "https://raw.githubusercontent.com/sky-ecosystem/sdai/master/src/SavingsDai.sol",
+    "note": "Published deployment reference only. Runtime identity and withdrawability are not asserted by this file."
+  },
+  "identity": {
+    "runtimeCodeHash": null,
+    "abiDigest": null,
+    "asset": null,
+    "assetDecimals": null,
+    "daiJoin": null,
+    "pot": null,
+    "validationBlockNumber": null,
+    "validationBlockHash": null
+  },
+  "capabilities": {
+    "inspect": false,
+    "forkRehearsal": false,
+    "testnetSigning": false,
+    "mainnetBroadcast": false
+  },
+  "enablement": {
+    "gatesPassed": false,
+    "reason": "On-chain bytecode, asset identity, a positive-position block, and a genuine fork redeem have not been recorded."
+  }
+}

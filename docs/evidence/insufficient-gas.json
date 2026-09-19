@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "id": "local-zero-native-gas",
+  "createdAt": "2026-09-19T09:41:15.643Z",
+  "verdict": "PASS",
+  "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
+  "evidenceLevel": "FORK_EXECUTED",
+  "environment": "LOCAL_FIXTURE",
+  "sourceMode": "LIVE_GENERATED",
+  "snapshot": {
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "registry": {
+      "id": "fixture-0",
+      "label": "Normal exit",
+      "enabled": true,
+      "chainId": 31337,
+      "target": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      "asset": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+      "symbol": "tSHARE",
+      "assetSymbol": "tDAI",
+      "decimals": 18,
+      "assetDecimals": 18,
+      "codeHash": "0x997227766be227fdcf05530aef0a6e6b54d7206a792d2bccf582e914413e92e3",
+      "assetCodeHash": "0x51ca72cdbffe8a7bbf716f1d74b75d6476fcb53de285d51f71790fc9a1a65b24",
+      "adapterVersion": "0.1.0",
+      "environment": "LOCAL_FIXTURE",
+      "signing": true
+    },
+    "sourceBlock": {
+      "chainId": 31337,
+      "number": "13",
+      "hash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
+      "timestamp": "2026-09-19T09:05:02.000Z",
+      "observedAt": "2026-09-19T09:41:15.642Z"
+    },
+    "sharesRaw": "1000000000000000000000",
+    "maxRedeemRaw": "1000000000000000000000",
+    "assetsRaw": "1000000000000000000000",
+    "nativeRaw": "0",
+    "ownerCode": false
+  },
+  "plan": {
+    "schemaVersion": 1,
+    "adapterId": "erc4626-direct-redeem",
+    "adapterVersion": "0.1.0",
+    "registryDigest": "0x55b13c751003eac72d86db8e4a96b836394fd79aa497614fc48e05b8981a6683",
+    "sourceChainId": 31337,
+    "sourceBlockNumber": "13",
+    "sourceBlockHash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
+    "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "target": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "operation": "redeem",
+    "sharesRaw": "1000000000000000000",
+    "valueRaw": "0",
+    "calldata": "0xba0876520000000000000000000000000000000000000000000000000de0b6b3a7640000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+    "planDigest": "0x81b497971d34d5a1c32149801a0fa589223bff8001b9038c9a506e661970a6e6"
+  },
+  "steps": [
+    {
+      "stage": "Validate position",
+      "at": "2026-09-19T09:41:15.643Z"
+    },
+    {
+      "stage": "Prepare isolated fork",
+      "at": "2026-09-19T09:41:15.648Z"
+    },
+    {
+      "stage": "Execute exact redemption",
+      "at": "2026-09-19T09:41:18.938Z"
+    },
+    {
+      "stage": "Verify balances and event",
+      "at": "2026-09-19T09:41:18.946Z"
+    },
+    {
+      "stage": "Evidence complete",
+      "at": "2026-09-19T09:41:18.954Z"
+    }
+  ],
+  "adjustments": [
+    {
+      "type": "NATIVE_GAS_FUNDING",
+      "originalRaw": "0",
+      "simulatedRaw": "10000000000000000000",
+      "reason": "Isolate contract behavior from gas affordability."
+    }
+  ],
+  "gasAssessment": "INSUFFICIENT",
+  "execution": {
+    "chainId": 31337,
+    "transactionHash": "0x9a27bb04f2ea8baf0f5b13d6e10eb6629f9e0adb79ea7949d1917e32090eaeb3",
+    "blockNumber": "14",
+    "blockHash": "0xfcf358d7e57017647cc6d315c679c77544a591e02cb4e9a0420f2a711af2fa23",
+    "timestamp": "2026-09-19T09:05:02.000Z",
+    "status": "success",
+    "gasUsed": "56071",
+    "gasLimit": "67285",
+    "feeEstimateRaw": "1186217103"
+  },
+  "balances": {
+    "before": {
+      "shares": "1000000000000000000000",
+      "assets": "996000000000000000000000",
+      "supply": "1000000000000000000000"
+    },
+    "after": {
+      "shares": "999000000000000000000",
+      "assets": "996001000000000000000000",
+      "supply": "999000000000000000000"
+    },
+    "observedAssetsRaw": "1000000000000000000"
+  },
+  "limitations": [
+    "Historical execution does not guarantee a future withdrawal.",
+    "A public-address rehearsal does not prove wallet control.",
+    "Mainnet broadcasting is disabled in this release."
+  ],
+  "estimatedAssetsRaw": "1000000000000000000"
+}

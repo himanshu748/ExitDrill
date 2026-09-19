@@ -1,0 +1,8 @@
+{
+  "name": "@exitdrill/kit",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  }
+}

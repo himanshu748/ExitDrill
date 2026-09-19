@@ -1,0 +1,64 @@
+{
+  "name": "exitdrill",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Evidence-based ERC-4626 withdrawal rehearsal and independent local recovery kit.",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "tsx scripts/dev.ts",
+    "build": "npm run build:kit && npm run build -w @exitdrill/web",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "fixtures:compile": "tsx scripts/compile.ts",
+    "fixtures:deploy": "tsx scripts/fixtures.ts",
+    "verify:fixtures": "tsx scripts/verify-fixtures.ts",
+    "inspect:sdai": "tsx scripts/inspect-sdai.ts",
+    "build:kit": "tsx scripts/build-kit.ts",
+    "format": "prettier --write apps packages scripts tests *.json *.ts registry/*.json docs/STATUS.md README.md",
+    "format:check": "prettier --check apps packages scripts tests *.json *.ts registry/*.json docs/STATUS.md README.md",
+    "verify:kit": "tsx scripts/verify-kit.ts",
+    "validate:sdai": "tsx scripts/validate-sdai.ts",
+    "enable:sdai": "tsx scripts/enable-sdai.ts",
+    "preview": "EXITDRILL_PRODUCTION=1 tsx scripts/dev.ts",
+    "verify:gas": "tsx scripts/verify-gas.ts",
+    "chain:start": "anvil --host 127.0.0.1 --port 8545 --chain-id 31337 --silent"
+  },
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cookie": "11.1.2",
+    "@fastify/rate-limit": "11.2.0",
+    "@openzeppelin/contracts": "5.6.1",
+    "fastify": "5.12.5",
+    "fflate": "0.8.3",
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "viem": "2.56.8",
+    "vite": "8.3.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@foundry-rs/anvil": "1.7.1",
+    "@playwright/test": "1.63.0",
+    "@types/node": "26.6.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "prettier": "3.9.8",
+    "solc": "0.8.37",
+    "solc-sdai": "npm:solc@0.8.17",
+    "tsx": "4.23.13",
+    "typescript": "7.0.2",
+    "vitest": "5.0.1"
+  },
+  "overrides": {
+    "tmp": "0.2.7"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-09-19T09:21:59.793Z",
+  "sourceBlock": {
+    "number": "26010633",
+    "hash": "0x8449dffc7cdbc53e9fef4cff6d7ef942f83e5e3b6e4fadcb0d91fef0364aaf09",
+    "timestamp": "1789809707"
+  },
+  "target": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+  "asset": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  "runtimeCodeHash": "0x6135b62a3a5f6ed21408c83b3ce280b35144264cd680d6e78bb48fa8ed4db076",
+  "dependencies": [
+    {
+      "name": "pot",
+      "address": "0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7",
+      "codeHash": "0x29432afb0411f4946c86ea9eb2583aba0e1e80386024c098b269306aba33f938"
+    },
+    {
+      "name": "daiJoin",
+      "address": "0x9759A6Ac90977b93B58547b4A71c78317f391A28",
+      "codeHash": "0x76dac2e14412f6ee4c5ca566296c954598168738955fa974cb3302cb73b95f0f"
+    },
+    {
+      "name": "vat",
+      "address": "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B",
+      "codeHash": "0x808b98f6475736d56c978e4fb476175ecd9d7abdab0797017fc10c7f46311a59"
+    }
+  ],
+  "secondaryAgreement": true,
+  "owner": null,
+  "sharesRaw": null,
+  "maxRedeemRaw": null,
+  "adapterEnabled": false,
+  "reason": "Source-to-runtime verification and genuine fork gates still required."
+}

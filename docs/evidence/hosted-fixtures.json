@@ -1,0 +1,385 @@
+{
+  "url": "https://jhahimanshu653--exitdrill-web.modal.run",
+  "verifiedAt": "2026-09-19T10:17:02.190Z",
+  "receipts": [
+    {
+      "schemaVersion": 1,
+      "id": "da75a0fd-12bf-437c-9647-da8ba02a9ee9",
+      "createdAt": "2026-09-19T10:16:55.522Z",
+      "verdict": "PASS",
+      "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
+      "evidenceLevel": "FORK_EXECUTED",
+      "environment": "LOCAL_FIXTURE",
+      "sourceMode": "LIVE_GENERATED",
+      "snapshot": {
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "registry": {
+          "id": "fixture-0",
+          "label": "Normal exit",
+          "enabled": true,
+          "chainId": 31337,
+          "target": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+          "asset": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "symbol": "tSHARE",
+          "assetSymbol": "tDAI",
+          "decimals": 18,
+          "assetDecimals": 18,
+          "codeHash": "0x997227766be227fdcf05530aef0a6e6b54d7206a792d2bccf582e914413e92e3",
+          "assetCodeHash": "0x51ca72cdbffe8a7bbf716f1d74b75d6476fcb53de285d51f71790fc9a1a65b24",
+          "adapterVersion": "0.1.0",
+          "environment": "LOCAL_FIXTURE",
+          "signing": true
+        },
+        "sourceBlock": {
+          "chainId": 31337,
+          "number": "13",
+          "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+          "timestamp": "2026-09-19T10:16:48.000Z",
+          "observedAt": "2026-09-19T10:16:54.814Z"
+        },
+        "sharesRaw": "1000000000000000000000",
+        "maxRedeemRaw": "1000000000000000000000",
+        "assetsRaw": "1000000000000000000000",
+        "nativeRaw": "9999990874830597954518",
+        "ownerCode": false
+      },
+      "plan": {
+        "schemaVersion": 1,
+        "adapterId": "erc4626-direct-redeem",
+        "adapterVersion": "0.1.0",
+        "registryDigest": "0x55b13c751003eac72d86db8e4a96b836394fd79aa497614fc48e05b8981a6683",
+        "sourceChainId": 31337,
+        "sourceBlockNumber": "13",
+        "sourceBlockHash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "target": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+        "operation": "redeem",
+        "sharesRaw": "10000000000000000000",
+        "valueRaw": "0",
+        "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "planDigest": "0x2e33a38788027f0ea13c722a5c973dde35c00db654ae34e4cc8d0bb0db996dee"
+      },
+      "steps": [
+        {
+          "stage": "Validate position",
+          "at": "2026-09-19T10:16:55.522Z"
+        },
+        {
+          "stage": "Prepare isolated fork",
+          "at": "2026-09-19T10:16:55.527Z"
+        },
+        {
+          "stage": "Execute exact redemption",
+          "at": "2026-09-19T10:16:55.924Z"
+        },
+        {
+          "stage": "Verify balances and event",
+          "at": "2026-09-19T10:16:55.928Z"
+        },
+        {
+          "stage": "Evidence complete",
+          "at": "2026-09-19T10:16:55.935Z"
+        }
+      ],
+      "adjustments": [],
+      "gasAssessment": "SUFFICIENT",
+      "execution": {
+        "chainId": 31337,
+        "transactionHash": "0xe5d0f7e9a5a4da24d1e9e36d950f4809ccd25b42e3513af19fd7486ef2dfa844",
+        "blockNumber": "14",
+        "blockHash": "0xf3189f4036a6abb978234044f7f0a2378472c8db86d621da059e8da9c47fff9f",
+        "timestamp": "2026-09-19T10:16:48.000Z",
+        "status": "success",
+        "gasUsed": "56071",
+        "gasLimit": "67285",
+        "feeEstimateRaw": "1186217103"
+      },
+      "balances": {
+        "before": {
+          "shares": "1000000000000000000000",
+          "assets": "996000000000000000000000",
+          "supply": "1000000000000000000000"
+        },
+        "after": {
+          "shares": "990000000000000000000",
+          "assets": "996010000000000000000000",
+          "supply": "990000000000000000000"
+        },
+        "observedAssetsRaw": "10000000000000000000"
+      },
+      "limitations": [
+        "Historical execution does not guarantee a future withdrawal.",
+        "A public-address rehearsal does not prove wallet control.",
+        "Mainnet broadcasting is disabled in this release."
+      ],
+      "estimatedAssetsRaw": "10000000000000000000"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "a35ce3e2-bcfd-479e-a29b-1c886ca3dfba",
+      "createdAt": "2026-09-19T10:16:58.527Z",
+      "verdict": "BLOCKED",
+      "reason": "Requested shares exceed the observed redemption limit.",
+      "evidenceLevel": "READS_ONLY",
+      "environment": "LOCAL_FIXTURE",
+      "sourceMode": "LIVE_GENERATED",
+      "snapshot": {
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "registry": {
+          "id": "fixture-1",
+          "label": "Redemption restricted",
+          "enabled": true,
+          "chainId": 31337,
+          "target": "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+          "asset": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "symbol": "tSHARE",
+          "assetSymbol": "tDAI",
+          "decimals": 18,
+          "assetDecimals": 18,
+          "codeHash": "0x2ff28e0c2f059dff692d3df3d355ff83e6ad77204858b90549f5194936b26adc",
+          "assetCodeHash": "0x51ca72cdbffe8a7bbf716f1d74b75d6476fcb53de285d51f71790fc9a1a65b24",
+          "adapterVersion": "0.1.0",
+          "environment": "LOCAL_FIXTURE",
+          "signing": true
+        },
+        "sourceBlock": {
+          "chainId": 31337,
+          "number": "13",
+          "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+          "timestamp": "2026-09-19T10:16:48.000Z",
+          "observedAt": "2026-09-19T10:16:58.009Z"
+        },
+        "sharesRaw": "1000000000000000000000",
+        "maxRedeemRaw": "0",
+        "assetsRaw": "1000000000000000000000",
+        "nativeRaw": "9999990874830597954518",
+        "ownerCode": false
+      },
+      "plan": {
+        "schemaVersion": 1,
+        "adapterId": "erc4626-direct-redeem",
+        "adapterVersion": "0.1.0",
+        "registryDigest": "0xbbe97e30a41a93b1b4cd63df8e8ddc3b10e79a37352ac2b91bf9d93dd601465d",
+        "sourceChainId": 31337,
+        "sourceBlockNumber": "13",
+        "sourceBlockHash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "target": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+        "operation": "redeem",
+        "sharesRaw": "10000000000000000000",
+        "valueRaw": "0",
+        "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "planDigest": "0x052b31812e72ba3040c3dd0044cc542ef1e988dbce3b4d3b19a0accb02b39f1c"
+      },
+      "steps": [
+        {
+          "stage": "Validate position",
+          "at": "2026-09-19T10:16:58.527Z"
+        }
+      ],
+      "adjustments": [],
+      "gasAssessment": "UNKNOWN",
+      "execution": null,
+      "balances": null,
+      "limitations": [
+        "Historical execution does not guarantee a future withdrawal.",
+        "A public-address rehearsal does not prove wallet control.",
+        "Mainnet broadcasting is disabled in this release."
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "id": "da35cb86-cffb-43a6-bb11-1b8c6932278c",
+      "createdAt": "2026-09-19T10:17:00.030Z",
+      "verdict": "PASS",
+      "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
+      "evidenceLevel": "FORK_EXECUTED",
+      "environment": "LOCAL_FIXTURE",
+      "sourceMode": "LIVE_GENERATED",
+      "snapshot": {
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "registry": {
+          "id": "fixture-2",
+          "label": "Limited redemption",
+          "enabled": true,
+          "chainId": 31337,
+          "target": "0xa513e6e4b8f2a923d98304ec87f64353c4d5c853",
+          "asset": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "symbol": "tSHARE",
+          "assetSymbol": "tDAI",
+          "decimals": 18,
+          "assetDecimals": 18,
+          "codeHash": "0xe6e6d83a2d5f058fa3f62e8899a59c26f1e0b41b2075fd3a3a4fc699384024ec",
+          "assetCodeHash": "0x51ca72cdbffe8a7bbf716f1d74b75d6476fcb53de285d51f71790fc9a1a65b24",
+          "adapterVersion": "0.1.0",
+          "environment": "LOCAL_FIXTURE",
+          "signing": true
+        },
+        "sourceBlock": {
+          "chainId": 31337,
+          "number": "13",
+          "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+          "timestamp": "2026-09-19T10:16:48.000Z",
+          "observedAt": "2026-09-19T10:16:59.518Z"
+        },
+        "sharesRaw": "1000000000000000000000",
+        "maxRedeemRaw": "25000000000000000000",
+        "assetsRaw": "1000000000000000000000",
+        "nativeRaw": "9999990874830597954518",
+        "ownerCode": false
+      },
+      "plan": {
+        "schemaVersion": 1,
+        "adapterId": "erc4626-direct-redeem",
+        "adapterVersion": "0.1.0",
+        "registryDigest": "0x77285a36f4da3327657fbd61852cf8d18e5cbe27c4b5b40a80da89c7a559d695",
+        "sourceChainId": 31337,
+        "sourceBlockNumber": "13",
+        "sourceBlockHash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "target": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+        "operation": "redeem",
+        "sharesRaw": "10000000000000000000",
+        "valueRaw": "0",
+        "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "planDigest": "0xa2a72bbf013cbb303e9dafce0aacb1f95e300209fa53c48e6566d74f62a0727c"
+      },
+      "steps": [
+        {
+          "stage": "Validate position",
+          "at": "2026-09-19T10:17:00.030Z"
+        },
+        {
+          "stage": "Prepare isolated fork",
+          "at": "2026-09-19T10:17:00.033Z"
+        },
+        {
+          "stage": "Execute exact redemption",
+          "at": "2026-09-19T10:17:00.293Z"
+        },
+        {
+          "stage": "Verify balances and event",
+          "at": "2026-09-19T10:17:00.296Z"
+        },
+        {
+          "stage": "Evidence complete",
+          "at": "2026-09-19T10:17:00.303Z"
+        }
+      ],
+      "adjustments": [],
+      "gasAssessment": "SUFFICIENT",
+      "execution": {
+        "chainId": 31337,
+        "transactionHash": "0x3a472aa392b89d0a577a593fb032465ef9542295b29ed07ad5e66332c94419c0",
+        "blockNumber": "14",
+        "blockHash": "0xd1807de171bdcf28a9b8958dc7837e1a3ce85a191d23c09ef60e5d61f86a77ee",
+        "timestamp": "2026-09-19T10:16:48.000Z",
+        "status": "success",
+        "gasUsed": "56101",
+        "gasLimit": "67321",
+        "feeEstimateRaw": "1186217103"
+      },
+      "balances": {
+        "before": {
+          "shares": "1000000000000000000000",
+          "assets": "996000000000000000000000",
+          "supply": "1000000000000000000000"
+        },
+        "after": {
+          "shares": "990000000000000000000",
+          "assets": "996010000000000000000000",
+          "supply": "990000000000000000000"
+        },
+        "observedAssetsRaw": "10000000000000000000"
+      },
+      "limitations": [
+        "Historical execution does not guarantee a future withdrawal.",
+        "A public-address rehearsal does not prove wallet control.",
+        "Mainnet broadcasting is disabled in this release."
+      ],
+      "estimatedAssetsRaw": "10000000000000000000"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "7f7f98da-f9d3-4be4-9f35-433a311b52f0",
+      "createdAt": "2026-09-19T10:17:01.533Z",
+      "verdict": "BLOCKED",
+      "reason": "The exact redemption call reverted in the private fork.",
+      "evidenceLevel": "CALL_PREFLIGHT",
+      "environment": "LOCAL_FIXTURE",
+      "sourceMode": "LIVE_GENERATED",
+      "snapshot": {
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "registry": {
+          "id": "fixture-3",
+          "label": "Execution reverts",
+          "enabled": true,
+          "chainId": 31337,
+          "target": "0x610178da211fef7d417bc0e6fed39f05609ad788",
+          "asset": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+          "symbol": "tSHARE",
+          "assetSymbol": "tDAI",
+          "decimals": 18,
+          "assetDecimals": 18,
+          "codeHash": "0x42d38553aeb26bdf0fae7a01a16f920e82b56d1207ef361b9fd23d6a1ff135ae",
+          "assetCodeHash": "0x51ca72cdbffe8a7bbf716f1d74b75d6476fcb53de285d51f71790fc9a1a65b24",
+          "adapterVersion": "0.1.0",
+          "environment": "LOCAL_FIXTURE",
+          "signing": true
+        },
+        "sourceBlock": {
+          "chainId": 31337,
+          "number": "13",
+          "hash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+          "timestamp": "2026-09-19T10:16:48.000Z",
+          "observedAt": "2026-09-19T10:17:00.994Z"
+        },
+        "sharesRaw": "1000000000000000000000",
+        "maxRedeemRaw": "1000000000000000000000",
+        "assetsRaw": "1000000000000000000000",
+        "nativeRaw": "9999990874830597954518",
+        "ownerCode": false
+      },
+      "plan": {
+        "schemaVersion": 1,
+        "adapterId": "erc4626-direct-redeem",
+        "adapterVersion": "0.1.0",
+        "registryDigest": "0x7a263ca5b352619ca7dabe2ba2e5b5dd94c256836ec10149412f94e367487ca5",
+        "sourceChainId": 31337,
+        "sourceBlockNumber": "13",
+        "sourceBlockHash": "0xcf45b2c90c96a3dc91b59d7353d505a6d9b3e2dfd5feb7bcb92f044c1fecf1b5",
+        "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+        "target": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+        "operation": "redeem",
+        "sharesRaw": "10000000000000000000",
+        "valueRaw": "0",
+        "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "planDigest": "0x5132d4bc9bfc6f943d21feef405c259eb019d39308b60473720b1f8c01567875"
+      },
+      "steps": [
+        {
+          "stage": "Validate position",
+          "at": "2026-09-19T10:17:01.533Z"
+        },
+        {
+          "stage": "Prepare isolated fork",
+          "at": "2026-09-19T10:17:01.535Z"
+        }
+      ],
+      "adjustments": [],
+      "gasAssessment": "UNKNOWN",
+      "execution": null,
+      "balances": null,
+      "limitations": [
+        "Historical execution does not guarantee a future withdrawal.",
+        "A public-address rehearsal does not prove wallet control.",
+        "Mainnet broadcasting is disabled in this release."
+      ],
+      "estimatedAssetsRaw": "10000000000000000000"
+    }
+  ]
+}

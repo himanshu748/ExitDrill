@@ -1,0 +1,12 @@
+node_modules
+.next
+dist
+package-lock.json
+data
+artifacts
+work
+output
+docs/PRD.md
+docs/evidence
+apps/kit/src/pinned-registry.ts
+apps/web/next-env.d.ts

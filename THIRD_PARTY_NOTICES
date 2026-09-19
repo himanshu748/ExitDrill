@@ -1,0 +1,14 @@
+ExitDrill application code: MIT, Copyright 2026 Himanshu Kumar.
+React / React DOM: MIT, Meta Platforms and contributors.
+Next.js: MIT, Vercel and contributors.
+Vite: MIT, Evan You and contributors.
+Viem: MIT, Wevm and contributors.
+Fastify and plugins: MIT, contributors.
+OpenZeppelin Contracts: MIT, OpenZeppelin and contributors. Used for test fixtures.
+Foundry Anvil: MIT / Apache-2.0. Distributed as an npm development tool dependency.
+Solidity compiler: GPL-3.0. Development tooling; not bundled into recovery kits.
+SavingsDai: AGPL-3.0-or-later, Dai Foundation and named upstream contributors.
+  Source is fetched at pinned commit 665879762f8b5df5d234463f45d1d6a49bd4fbeb
+  for source/runtime verification, not copied into application or kit bundles.
+fflate: MIT, Arjun Barrett.
+Full dependency licenses remain in installed package distributions.
