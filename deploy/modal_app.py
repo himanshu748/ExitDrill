@@ -8,7 +8,7 @@ image = (
     modal.Image.from_registry("node:24.9.0-bookworm-slim", add_python="3.12")
     .apt_install("ca-certificates")
     .workdir("/app")
-    .env({"NEXT_TELEMETRY_DISABLED": "1", "RAYON_NUM_THREADS": "2", "TOKIO_WORKER_THREADS": "2"})
+    .env({"NEXT_TELEMETRY_DISABLED": "1", "RAYON_NUM_THREADS": "2", "TOKIO_WORKER_THREADS": "2", "EXITDRILL_RPC_INTERVAL_MS": "150"})
     .add_local_dir(ROOT, "/app", copy=True, ignore=[
         "node_modules", ".git", ".env", ".env.*", "data", "artifacts", "work", "output",
         "**/.next", "**/dist", "**/*.log", "**/*.tsbuildinfo", "__pycache__",

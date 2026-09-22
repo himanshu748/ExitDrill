@@ -63,7 +63,8 @@ async function forward(payload) {
       {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        lookup: (_h, _o, cb) => cb(null, d.ip, 4),
+        lookup: (_h, options, cb) =>
+          options.all ? cb(null, [{ address: d.ip, family: 4 }]) : cb(null, d.ip, 4),
         timeout: 12000,
       },
       (res) => {

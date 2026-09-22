@@ -1,8 +1,8 @@
 [
   {
     "schemaVersion": 1,
-    "id": "6592caf3-fa62-49d8-ba6b-d73bd9f8b332",
-    "createdAt": "2026-09-19T09:42:54.057Z",
+    "id": "a3bd5ecc-719f-4bed-b827-78f8120bcf7f",
+    "createdAt": "2026-09-22T07:39:49.561Z",
     "verdict": "PASS",
     "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
     "evidenceLevel": "FORK_EXECUTED",
@@ -30,9 +30,9 @@
       "sourceBlock": {
         "chainId": 31337,
         "number": "13",
-        "hash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
-        "timestamp": "2026-09-19T09:05:02.000Z",
-        "observedAt": "2026-09-19T09:42:54.056Z"
+        "hash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
+        "timestamp": "2026-09-22T07:39:49.000Z",
+        "observedAt": "2026-09-22T07:39:49.560Z"
       },
       "sharesRaw": "1000000000000000000000",
       "maxRedeemRaw": "1000000000000000000000",
@@ -47,7 +47,7 @@
       "registryDigest": "0x55b13c751003eac72d86db8e4a96b836394fd79aa497614fc48e05b8981a6683",
       "sourceChainId": 31337,
       "sourceBlockNumber": "13",
-      "sourceBlockHash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
+      "sourceBlockHash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
       "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "target": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
@@ -55,28 +55,28 @@
       "sharesRaw": "10000000000000000000",
       "valueRaw": "0",
       "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-      "planDigest": "0x2054f50fc62ba80af44049d8e45a8e6b572721bf5364fa9012314cebca1a58ad"
+      "planDigest": "0xd9f426942735a05bc46a50f6d7e13b2deaacf7a5d0f6c0f5b23d8edfdc86b29d"
     },
     "steps": [
       {
         "stage": "Validate position",
-        "at": "2026-09-19T09:42:54.057Z"
+        "at": "2026-09-22T07:39:49.561Z"
       },
       {
         "stage": "Prepare isolated fork",
-        "at": "2026-09-19T09:42:54.066Z"
+        "at": "2026-09-22T07:39:49.562Z"
       },
       {
         "stage": "Execute exact redemption",
-        "at": "2026-09-19T09:42:54.732Z"
+        "at": "2026-09-22T07:39:49.681Z"
       },
       {
         "stage": "Verify balances and event",
-        "at": "2026-09-19T09:42:54.744Z"
+        "at": "2026-09-22T07:39:49.682Z"
       },
       {
         "stage": "Evidence complete",
-        "at": "2026-09-19T09:42:54.754Z"
+        "at": "2026-09-22T07:39:49.684Z"
       }
     ],
     "adjustments": [],
@@ -85,8 +85,8 @@
       "chainId": 31337,
       "transactionHash": "0xe5d0f7e9a5a4da24d1e9e36d950f4809ccd25b42e3513af19fd7486ef2dfa844",
       "blockNumber": "14",
-      "blockHash": "0x19646385ccb8a70ffa293c1681803fbce9f0cfe3dca0e04b12a25470fc5d1eab",
-      "timestamp": "2026-09-19T09:05:02.000Z",
+      "blockHash": "0x7a15f426a2c6bcc6a1d239b21a036009f56bdfebf458c845cabc4014450d50a0",
+      "timestamp": "2026-09-22T07:39:49.000Z",
       "status": "success",
       "gasUsed": "56071",
       "gasLimit": "67285",
@@ -114,8 +114,8 @@
   },
   {
     "schemaVersion": 1,
-    "id": "3afb717e-8888-47a2-b271-3c9171fcc882",
-    "createdAt": "2026-09-19T09:42:54.786Z",
+    "id": "6e8c4029-5a52-4e9c-a718-cbe349470a95",
+    "createdAt": "2026-09-22T07:39:49.690Z",
     "verdict": "BLOCKED",
     "reason": "Requested shares exceed the observed redemption limit.",
     "evidenceLevel": "READS_ONLY",
@@ -143,9 +143,9 @@
       "sourceBlock": {
         "chainId": 31337,
         "number": "13",
-        "hash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
-        "timestamp": "2026-09-19T09:05:02.000Z",
-        "observedAt": "2026-09-19T09:42:54.786Z"
+        "hash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
+        "timestamp": "2026-09-22T07:39:49.000Z",
+        "observedAt": "2026-09-22T07:39:49.690Z"
       },
       "sharesRaw": "1000000000000000000000",
       "maxRedeemRaw": "0",
@@ -160,7 +160,7 @@
       "registryDigest": "0xbbe97e30a41a93b1b4cd63df8e8ddc3b10e79a37352ac2b91bf9d93dd601465d",
       "sourceChainId": 31337,
       "sourceBlockNumber": "13",
-      "sourceBlockHash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
+      "sourceBlockHash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
       "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "target": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
@@ -168,12 +168,12 @@
       "sharesRaw": "10000000000000000000",
       "valueRaw": "0",
       "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-      "planDigest": "0x91b87cabfb94dfa7579a68bbec7cea3e95857cce7d0c80747d888f999fddcaf0"
+      "planDigest": "0xcf3950df16b7c9174263bb97c7c0fc5bccbf7fe951ad0e444ce6382bba04b1f5"
     },
     "steps": [
       {
         "stage": "Validate position",
-        "at": "2026-09-19T09:42:54.786Z"
+        "at": "2026-09-22T07:39:49.690Z"
       }
     ],
     "adjustments": [],
@@ -188,8 +188,8 @@
   },
   {
     "schemaVersion": 1,
-    "id": "1dd1e0ee-64a4-4386-bdf1-6d0384563167",
-    "createdAt": "2026-09-19T09:42:54.811Z",
+    "id": "1daaac91-5599-458f-b57b-737ca6df1b16",
+    "createdAt": "2026-09-22T07:39:49.694Z",
     "verdict": "PASS",
     "reason": "The exact redemption executed and its share, asset, supply, and withdrawal-event checks passed.",
     "evidenceLevel": "FORK_EXECUTED",
@@ -217,9 +217,9 @@
       "sourceBlock": {
         "chainId": 31337,
         "number": "13",
-        "hash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
-        "timestamp": "2026-09-19T09:05:02.000Z",
-        "observedAt": "2026-09-19T09:42:54.811Z"
+        "hash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
+        "timestamp": "2026-09-22T07:39:49.000Z",
+        "observedAt": "2026-09-22T07:39:49.694Z"
       },
       "sharesRaw": "1000000000000000000000",
       "maxRedeemRaw": "25000000000000000000",
@@ -234,7 +234,7 @@
       "registryDigest": "0x77285a36f4da3327657fbd61852cf8d18e5cbe27c4b5b40a80da89c7a559d695",
       "sourceChainId": 31337,
       "sourceBlockNumber": "13",
-      "sourceBlockHash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
+      "sourceBlockHash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
       "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "target": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
@@ -242,28 +242,28 @@
       "sharesRaw": "10000000000000000000",
       "valueRaw": "0",
       "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-      "planDigest": "0x3293ddbfdd7628bb4a74862e5ac499b2aa960782bb6779fe97c708de97a06dab"
+      "planDigest": "0x7d040116c50707a45a3a31eb0ea3ea5b26732517061b8729f06bc702fe971398"
     },
     "steps": [
       {
         "stage": "Validate position",
-        "at": "2026-09-19T09:42:54.811Z"
+        "at": "2026-09-22T07:39:49.694Z"
       },
       {
         "stage": "Prepare isolated fork",
-        "at": "2026-09-19T09:42:54.815Z"
+        "at": "2026-09-22T07:39:49.694Z"
       },
       {
         "stage": "Execute exact redemption",
-        "at": "2026-09-19T09:42:55.212Z"
+        "at": "2026-09-22T07:39:49.806Z"
       },
       {
         "stage": "Verify balances and event",
-        "at": "2026-09-19T09:42:55.221Z"
+        "at": "2026-09-22T07:39:49.807Z"
       },
       {
         "stage": "Evidence complete",
-        "at": "2026-09-19T09:42:55.225Z"
+        "at": "2026-09-22T07:39:49.808Z"
       }
     ],
     "adjustments": [],
@@ -272,8 +272,8 @@
       "chainId": 31337,
       "transactionHash": "0x3a472aa392b89d0a577a593fb032465ef9542295b29ed07ad5e66332c94419c0",
       "blockNumber": "14",
-      "blockHash": "0x485cab3ad518627ca63a26c394e0f73055e2fb527f4bdb8837882cec5ac4b8fd",
-      "timestamp": "2026-09-19T09:05:02.000Z",
+      "blockHash": "0x0d65a104a5da5602d0424f5570c52b8fb25a79ffb1bc2c1706858fdb80b07cfe",
+      "timestamp": "2026-09-22T07:39:49.000Z",
       "status": "success",
       "gasUsed": "56101",
       "gasLimit": "67321",
@@ -301,8 +301,8 @@
   },
   {
     "schemaVersion": 1,
-    "id": "174a6b3a-3d98-46f9-b92b-feb2cb4a8931",
-    "createdAt": "2026-09-19T09:42:55.255Z",
+    "id": "2ad58165-c351-42e6-82dc-6843543215d6",
+    "createdAt": "2026-09-22T07:39:49.812Z",
     "verdict": "BLOCKED",
     "reason": "The exact redemption call reverted in the private fork.",
     "evidenceLevel": "CALL_PREFLIGHT",
@@ -330,9 +330,9 @@
       "sourceBlock": {
         "chainId": 31337,
         "number": "13",
-        "hash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
-        "timestamp": "2026-09-19T09:05:02.000Z",
-        "observedAt": "2026-09-19T09:42:55.255Z"
+        "hash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
+        "timestamp": "2026-09-22T07:39:49.000Z",
+        "observedAt": "2026-09-22T07:39:49.812Z"
       },
       "sharesRaw": "1000000000000000000000",
       "maxRedeemRaw": "1000000000000000000000",
@@ -347,7 +347,7 @@
       "registryDigest": "0x7a263ca5b352619ca7dabe2ba2e5b5dd94c256836ec10149412f94e367487ca5",
       "sourceChainId": 31337,
       "sourceBlockNumber": "13",
-      "sourceBlockHash": "0x3590a85b392d2b3131252edef0aa6d86f6bbaf4f0982c395a298edc1bbd606b1",
+      "sourceBlockHash": "0x9e8620b1f37667b547a1b7659c74a5856d6e62cf07e8ea43e36de6587b7b7004",
       "owner": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "receiver": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
       "target": "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
@@ -355,16 +355,16 @@
       "sharesRaw": "10000000000000000000",
       "valueRaw": "0",
       "calldata": "0xba0876520000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
-      "planDigest": "0x12b03a651f21a6e7a1c5403bb55bd469fdd854d7ad3b03d1dfa6b67716867254"
+      "planDigest": "0x1e3df3499438b92efc6a069dee3ee153ac8ff43d8f8b679d24e155d57b566a5e"
     },
     "steps": [
       {
         "stage": "Validate position",
-        "at": "2026-09-19T09:42:55.255Z"
+        "at": "2026-09-22T07:39:49.812Z"
       },
       {
         "stage": "Prepare isolated fork",
-        "at": "2026-09-19T09:42:55.260Z"
+        "at": "2026-09-22T07:39:49.812Z"
       }
     ],
     "adjustments": [],

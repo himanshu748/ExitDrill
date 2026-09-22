@@ -63,10 +63,11 @@ export default function Home() {
       poll(match[1]);
     }
     api('/v1/registry')
-      .then(setRegistry)
-      .catch(() =>
-        setError('The local API is unavailable. Start the ExitDrill services and retry.'),
-      );
+      .then((r) => {
+        setRegistry(r);
+        setVault(r.candidate?.enabled ? 'sdai-mainnet' : 'fixture-0');
+      })
+      .catch(() => setError('The service is temporarily unavailable. Reload this page to retry.'));
     return () => {
       if (timer.current) clearTimeout(timer.current);
     };
@@ -74,6 +75,7 @@ export default function Home() {
   const change = () => {
     setSnapshot(null);
     setReport(null);
+    setSaved(false);
     setJob(null);
     setError('');
   };
@@ -199,7 +201,8 @@ export default function Home() {
           </button>
           <button onClick={replay}>Recorded demo</button>
           <span className="header-note">
-            <i /> MAINNET READ-ONLY
+            <i />{' '}
+            {registry?.candidate?.enabled ? 'ETHEREUM · READ-ONLY' : 'TEST VAULTS · LIVE DEMO'}
           </span>
         </nav>
       </header>
@@ -227,19 +230,27 @@ export default function Home() {
                     <button
                       className="primary"
                       onClick={() => {
+                        change();
+                        setSaved(false);
+                        if (!registry?.candidate?.enabled) {
+                          setOwner(registry?.owner ?? '');
+                          setVault('fixture-0');
+                        }
                         setView('inspect');
                         history.pushState(null, '', '/inspect');
                       }}
                     >
-                      Inspect a position <span>↗</span>
+                      {registry?.candidate?.enabled ? 'Inspect a position' : 'Try with test funds'}{' '}
+                      <span>↗</span>
                     </button>
                     <button className="text-button" onClick={replay}>
                       Open a recorded demo <span>→</span>
                     </button>
                   </div>
                   <p className="fine">
-                    Mainnet inspection and rehearsal only. Wallet withdrawals are limited to test
-                    deployments.
+                    {registry?.candidate?.enabled
+                      ? 'Savings DAI on Ethereum: inspect and rehearse without signing. Mainnet broadcasting is disabled.'
+                      : 'Live demo uses disposable test funds. The recorded Ethereum example is historical evidence.'}
                   </p>
                 </div>
                 <div className="field-note">
@@ -336,11 +347,30 @@ export default function Home() {
                       className="small-link"
                       onClick={() => {
                         setOwner(registry?.owner ?? '');
+                        setVault('fixture-0');
                         change();
                       }}
                     >
-                      Use the local test address ↗
+                      Use test funds ↗
                     </button>
+                    {registry?.candidate?.enabled && registry?.exampleOwner && (
+                      <>
+                        <button
+                          className="small-link"
+                          onClick={() => {
+                            change();
+                            setOwner(registry.exampleOwner);
+                            setVault('sdai-mainnet');
+                          }}
+                        >
+                          Try a public sDAI position ↗
+                        </button>
+                        <p className="fine">
+                          The example is a public Ethereum address. It is not your wallet; no
+                          ownership or signature is required to rehearse it.
+                        </p>
+                      </>
+                    )}
                     <label htmlFor="vault">Supported vault</label>
                     <select
                       id="vault"
@@ -492,7 +522,9 @@ export default function Home() {
                         )}
                         {saved && (
                           <p role="status">
-                            Kit download started. Keep it somewhere you can find independently.
+                            Kit downloaded. Extract the ZIP and open START_HERE.html in your
+                            browser. Save it outside this website so you can find it during an
+                            outage.
                           </p>
                         )}
                       </>
@@ -535,8 +567,8 @@ export default function Home() {
                     the guesswork.
                   </h3>
                   <p>
-                    We execute one direct redemption: shares return to the same address that owns
-                    them.
+                    We redeem vault shares for underlying assets, sent to the same address that owns
+                    the shares.
                   </p>
                   <ul>
                     <li>No approvals or recovery wallets</li>
@@ -597,8 +629,9 @@ export default function Home() {
             </p>
             <p>Excludes private keys, RPC credentials, server secrets, and session cookies.</p>
             <div className="notice">
-              You’ll need Node.js 22+ and a browser. Saved evidence works offline. Fresh checks need
-              RPC access; test withdrawals also need an injected wallet.
+              Open START_HERE.html to read saved evidence offline in any browser. Fresh checks use
+              the included launcher and require Node.js 22+ and an RPC connection. Test withdrawals
+              also need a compatible wallet.
             </div>
             <p className="fine">
               Checksums detect changed files. They do not authenticate the publisher.

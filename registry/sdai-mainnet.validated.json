@@ -1,0 +1,32 @@
+{
+  "id": "sdai-mainnet",
+  "label": "Savings DAI",
+  "enabled": true,
+  "chainId": 1,
+  "target": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+  "asset": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  "symbol": "sDAI",
+  "assetSymbol": "DAI",
+  "decimals": 18,
+  "assetDecimals": 18,
+  "codeHash": "0x6135b62a3a5f6ed21408c83b3ce280b35144264cd680d6e78bb48fa8ed4db076",
+  "assetCodeHash": "0x4e36f96ee1667a663dfaac57c4d185a0e369a3a217e0079d49620f34f85d1ac7",
+  "adapterVersion": "0.1.0",
+  "environment": "MAINNET_READ",
+  "signing": false,
+  "dependencies": [
+    {
+      "address": "0x35D1b3F3D7966A1DFe207aa4514C12a259A0492B",
+      "codeHash": "0x808b98f6475736d56c978e4fb476175ecd9d7abdab0797017fc10c7f46311a59"
+    },
+    {
+      "address": "0x9759A6Ac90977b93B58547b4A71c78317f391A28",
+      "codeHash": "0x76dac2e14412f6ee4c5ca566296c954598168738955fa974cb3302cb73b95f0f"
+    },
+    {
+      "address": "0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7",
+      "codeHash": "0x29432afb0411f4946c86ea9eb2583aba0e1e80386024c098b269306aba33f938"
+    }
+  ],
+  "abiDigest": "0xb225f42c6c527d991385159a725016b3007880effdd9881ad59aa96c0d44f794"
+}

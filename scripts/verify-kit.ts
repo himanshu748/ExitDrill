@@ -1,11 +1,23 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { spawn } from 'node:child_process';
-import { unzipSync } from 'fflate';
+import { unzipSync, strFromU8 } from 'fflate';
 import { exportKit } from '../packages/evidence/src/export.ts';
 const report = JSON.parse(readFileSync('data/local/replay.json', 'utf8'));
 const zip = await exportKit(report);
 const files = unzipSync(zip);
+const guide = strFromU8(files['exitdrill-kit/START_HERE.html']!);
+if (!guide.includes('href="data/report.html"') || !guide.includes('--local-fixture'))
+  throw Error('Offline entry point or fixture guidance missing');
+const hostile = structuredClone(report);
+hostile.environment = 'MAINNET_FORK';
+hostile.reason = '<img src=x onerror="alert(1)">';
+const mainnetFiles = unzipSync(await exportKit(hostile));
+const mainnetGuide = strFromU8(mainnetFiles['exitdrill-kit/START_HERE.html']!);
+if (mainnetGuide.includes('<img') || !mainnetGuide.includes('&lt;img'))
+  throw Error('Untrusted report text was not escaped');
+if (mainnetGuide.includes('--local-fixture') || !mainnetGuide.includes('Ethereum HTTPS RPC'))
+  throw Error('Mainnet guide contains fixture instructions');
 for (const [p, data] of Object.entries(files)) {
   const out = resolve('work/extracted', p);
   mkdirSync(dirname(out), { recursive: true });
@@ -61,6 +73,17 @@ try {
     await post('/rpc', { jsonrpc: '2.0', id: 1, method: 'eth_chainId', params: [] })
   ).json();
   if (chain.result !== '0x7a69') throw Error('RPC failed');
+  if (process.env.EXITDRILL_VERIFY_PUBLIC_RPC === '1') {
+    if ((await post('/configure', { url: 'https://ethereum-rpc.publicnode.com' })).status !== 200)
+      throw Error('Public HTTPS configuration failed');
+    const ethereum = await (
+      await post('/rpc', { jsonrpc: '2.0', id: 2, method: 'eth_chainId', params: [] })
+    ).json();
+    if (ethereum.result !== '0x1') throw Error('Public HTTPS DNS-pinned forwarding failed');
+    console.log(
+      'Public HTTPS RPC verified through extracted launcher (Node DNS all-address mode).',
+    );
+  }
   writeFileSync('work/extracted/exitdrill-kit/data/plan.json', '{}');
   const tampered = await fetch('http://127.0.0.1:4174/bootstrap').then((r) => r.json());
   if (tampered.integrity.matches) throw Error('Tampering not detected');

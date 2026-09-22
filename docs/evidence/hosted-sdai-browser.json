@@ -1,0 +1,13 @@
+{
+  "verifiedAt": "2026-09-22",
+  "url": "https://jhahimanshu653--exitdrill-web.modal.run",
+  "jobId": "f311e671-ccb9-4d2f-82c0-c3c56e7e24fd",
+  "verdict": "PASS",
+  "evidenceLevel": "FORK_EXECUTED",
+  "shares": "1 sDAI",
+  "assets": "1.180831583669003968 DAI",
+  "observedWorkerSeconds": 23,
+  "kitExport": "download started confirmed in browser",
+  "method": "Fresh user journey through hosted browser interface, not recorded replay",
+  "mainnetBroadcast": false
+}

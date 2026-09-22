@@ -18,10 +18,10 @@ export async function paced<T>(url: string, fn: () => Promise<T>): Promise<T> {
   queues.set(key, task);
   return task;
 }
-export const client = (url: string) =>
+export const client = (url: string, timeout = 12000) =>
   createPublicClient({
     transport: (options) => {
-      const transport = http(url, { timeout: 12000, retryCount: 0 })(options);
+      const transport = http(url, { timeout, retryCount: 0 })(options);
       return {
         ...transport,
         request: (args: any) => paced(url, () => transport.request(args)),

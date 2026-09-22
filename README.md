@@ -8,7 +8,7 @@ Built from the existing Cursor PRD in this same repository. The complete specifi
 
 ## Judge links
 
-- Live disposable demo: https://jhahimanshu653--exitdrill-web.modal.run
+- Live app: https://jhahimanshu653--exitdrill-web.modal.run
 - Pitch deck: [PDF](docs/submission/ExitDrill-pitch.pdf) · [editable PowerPoint](docs/submission/ExitDrill-pitch.pptx)
 - [Rubric review](docs/RUBRIC.md) and [measured evidence](docs/evidence/)
 
@@ -23,7 +23,7 @@ npm ci
 npm run dev
 ```
 
-Open **http://localhost:4310**. The launcher compiles and deploys four local test vaults on first run, builds the independent kit, and starts the API and Next.js interface. Anvil, API, and web services bind to loopback. Use the **local test address** button; these are disposable test assets.
+Open **http://localhost:4310**. The launcher compiles and deploys four local test vaults on first run, builds the independent kit, and starts the API and Next.js interface. Anvil, API, and web services bind to loopback. Use the **Use test funds** button; these are disposable test assets.
 
 For a production build and local preview:
 
@@ -34,7 +34,15 @@ npm run preview
 
 A production internet deployment needs a persistent host, TLS reverse proxy, configured origin, and reviewed RPC capacity. This checkout does not publish itself.
 
-## Try the complete journey
+## Try your Ethereum position
+
+Savings DAI on Ethereum is enabled for read-only inspection and private-fork rehearsal. Enter a public address that holds sDAI, or choose **Try a public sDAI position**. Use a small exact share amount such as `1`, run the rehearsal, and export the kit. No wallet connection is needed.
+
+After extraction, open `START_HERE.html` to read saved evidence offline. For a fresh Ethereum preflight, run `node start.mjs` in the kit folder, open `http://127.0.0.1:4173`, and configure an Ethereum HTTPS RPC. The original app and API can be stopped. Mainnet broadcasting is disabled.
+
+The repeat validation through the second provider passed on 22 September 2026. The source block, receipt, balances, and withdrawal event are saved in `docs/evidence/sdai-secondary-rehearsal.json`.
+
+## Try the local test journey
 
 1. Inspect the normal local vault using the test address.
 2. Choose an exact amount or a percentage, then run the rehearsal.

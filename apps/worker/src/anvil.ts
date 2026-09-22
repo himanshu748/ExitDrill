@@ -24,11 +24,15 @@ export async function startAnvil(fork?: { url: string; block: string }, fixedPor
   child.on('error', () => {
     failed = true;
   });
-  const timer = setTimeout(() => child.kill('SIGKILL'), 90000);
+  const timer = setTimeout(() => child.kill('SIGKILL'), 180000);
   timer.unref();
-  const c = client(url);
+  // A forked estimate can read many remote storage slots before replying.
+  const c = client(url, fork ? 90000 : 12000);
   try {
-    for (let i = 0; i < 120; i++) {
+    // Remote forks need time to fetch their source header through the read-only gateway.
+    // Keep a wall-clock bound rather than treating slow RPC startup as contract failure.
+    const deadline = Date.now() + (fork ? 45000 : 12000);
+    while (Date.now() < deadline) {
       if (failed || child.exitCode !== null) throw Error('ANVIL_UNAVAILABLE');
       try {
         await c.getChainId();

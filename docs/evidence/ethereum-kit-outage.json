@@ -1,0 +1,22 @@
+{
+  "verifiedAt": "2026-09-22T07:53:21.651036+00:00",
+  "reportId": "48a4ff69-44f7-4328-b61e-72f60933464a",
+  "network": "Ethereum",
+  "sourceBlock": {
+    "chainId": 1,
+    "number": "26031624",
+    "hash": "0x19a8a544ae66fea876bfec09c5faea83791a4b8c3d9aa54438c31f25c767fe04",
+    "timestamp": "2026-09-22T07:45:23.000Z",
+    "observedAt": "2026-09-22T07:45:47.706Z"
+  },
+  "savedVerdict": "PASS",
+  "webAndApiStopped": true,
+  "portsChecked": [
+    4310,
+    4311
+  ],
+  "kitOrigin": "http://127.0.0.1:4173",
+  "browserResult": "Current call preflight succeeded. This read-only check is not a full fork rehearsal.",
+  "walletSigningTested": false,
+  "scope": "Independent local launcher against public HTTPS Ethereum RPC. No mainnet transaction sent."
+}

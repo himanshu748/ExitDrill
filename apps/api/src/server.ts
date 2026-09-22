@@ -101,6 +101,10 @@ export async function createAPI() {
   });
   app.get('/v1/registry', async () => ({
     ...fixtures(),
+    exampleOwner: existsSync('registry/sdai-mainnet.validated.json')
+      ? JSON.parse(readFileSync('docs/evidence/sdai-secondary-rehearsal.json', 'utf8')).snapshot
+          .owner
+      : null,
     candidate: {
       label: 'Savings DAI · Ethereum',
       enabled: existsSync('registry/sdai-mainnet.validated.json'),

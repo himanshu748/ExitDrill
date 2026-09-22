@@ -7,7 +7,7 @@ This is an evidence review, not a prediction of judging scores. The official rub
 | Criterion             | Demonstrable strength                                                                                                | Limitation                                                                     |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | Innovation            | Combines exact withdrawal rehearsal with a portable interface and a fresh independent preflight.                     | User demand and adoption are unmeasured.                                       |
-| Technical Feasibility | Real private-fork execution; receipt, event, balance and supply invariants; 34 tests; reproducible fixture setup.    | Live sDAI activation and wallet-extension validation remain gated.             |
+| Technical Feasibility | Real private-fork execution; receipt, event, balance and supply invariants; 34 tests; reproducible fixture setup.    | sDAI repeat validation passed; wallet-extension validation remains open.             |
 | Uniqueness            | Focuses the entire workflow on a direct owner redemption and preserving the exit tools during a website outage.      | No claim to be the first transaction simulator or the only recovery interface. |
 | Design                | Watch-only entry, exact amounts, explicit environment, distinct PASS/BLOCKED/UNKNOWN results, export privacy review. | Formal accessibility and five-person comprehension study remain open.          |
 

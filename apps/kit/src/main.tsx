@@ -275,7 +275,10 @@ function Kit() {
       <section className="workspace">
         <span className="eyebrow">YOUR SAVED WAY OUT</span>
         <h1>Independent of our website.</h1>
-        <p>Hosted services are not required. A wallet and RPC connection still are.</p>
+        <p>
+          Saved evidence is available below. Fresh checks need an RPC connection; a wallet is only
+          needed for test signing.
+        </p>
         <div className="notice">
           Mainnet broadcasting is disabled in this release. Saved evidence is historical.
         </div>
