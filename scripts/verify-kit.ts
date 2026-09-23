@@ -74,7 +74,13 @@ try {
   ).json();
   if (chain.result !== '0x7a69') throw Error('RPC failed');
   if (process.env.EXITDRILL_VERIFY_PUBLIC_RPC === '1') {
-    if ((await post('/configure', { url: 'https://ethereum-rpc.publicnode.com' })).status !== 200)
+    if (
+      (
+        await post('/configure', {
+          url: process.env.EXITDRILL_KIT_TEST_RPC || 'https://ethereum-rpc.publicnode.com',
+        })
+      ).status !== 200
+    )
       throw Error('Public HTTPS configuration failed');
     const ethereum = await (
       await post('/rpc', { jsonrpc: '2.0', id: 2, method: 'eth_chainId', params: [] })

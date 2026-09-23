@@ -25,7 +25,8 @@
     "enable:sdai": "tsx scripts/enable-sdai.ts",
     "preview": "EXITDRILL_PRODUCTION=1 tsx scripts/dev.ts",
     "verify:gas": "tsx scripts/verify-gas.ts",
-    "chain:start": "node node_modules/@foundry-rs/anvil/bin.mjs --host 127.0.0.1 --port 8545 --chain-id 31337 --silent"
+    "chain:start": "node node_modules/@foundry-rs/anvil/bin.mjs --host 127.0.0.1 --port 8545 --chain-id 31337 --silent",
+    "verify:reliability": "node scripts/verify-reliability.mjs"
   },
   "engines": {
     "node": ">=22.14.0"

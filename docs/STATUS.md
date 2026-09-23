@@ -1,6 +1,6 @@
 # Implementation and verification status
 
-Updated 22 September 2026. The original Cursor specification is preserved in `PRD.md`.
+Updated 23 September 2026. The original Cursor specification is preserved in `PRD.md`.
 
 ## Implemented
 
@@ -34,8 +34,18 @@ On 22 September, live sDAI rehearsal also passed through the deployed app (job `
 
 - sDAI read-only inspection and private-fork rehearsal are enabled after the second-provider validation and repeated execution passed on 22 September. Evidence: `evidence/sdai-secondary-rehearsal.json`. Public RPC errors still produce UNKNOWN. Mainnet broadcasting remains disabled.
 - A real injected-wallet extension signing demonstration is not yet recorded. The automated provider harness submits a real local EVM transaction, but it is not evidence of wallet-extension compatibility. The in-app browser reports no injected wallet.
-- Thirty-run latency distributions, five-person comprehension testing, full accessibility audit, and all failure-injection cases from the PRD are not completed.
+- Five-person comprehension testing, full accessibility audit, and all failure-injection cases from the PRD are not completed. No participants are currently available. The 23 September browser check verified export-dialog keyboard focus and narrow-screen reflow; this is not a full accessibility audit.
 - Public disposable demo deployed on Modal; all four hosted fixture outcomes verified in `evidence/hosted-fixtures.json`. Public testnet deployment is outside this prototype. Submission assets and live Devpost receipt are tracked separately.
 - The API embeds its single worker scheduler in the same process for this local prototype. Separate process leases/retry recovery and a production reverse proxy remain deployment work.
 
 A passing historical rehearsal is not a future-withdrawal guarantee or an audit. Mainnet broadcasts are blocked regardless of adapter status.
+
+## 23 September hardening
+
+- 39 automated tests pass, including five new failure-injection cases: provider loss after inspection, changed source hash, account change, network change, and a reverted wallet preflight. None produces a false PASS or send.
+- The local browser journey rehearsed 250 test shares, exported its kit, and passed a fresh call preflight after web/API ports 4310 and 4311 were stopped. See `evidence/outage-sep23.json`. The available browser detected no wallet extension, so extension signing is still unverified.
+- The default public RPC returned a certificate hostname mismatch from this machine. TLS verification rejected it. The same extracted kit passed its HTTPS RPC check against `https://eth.drpc.org`; no certificate checks were bypassed. The verification script now accepts `EXITDRILL_KIT_TEST_RPC`.
+- Initial coverage loading uses neutral text rather than incorrectly claiming Ethereum validation is incomplete.
+- `JUDGE-WALKTHROUGH.md` gives a reproducible demonstration and explicit evidence boundaries.
+
+The 23 September hosted reliability check completed 30/30 successful fresh-inspection journeys without retries: 20 Ethereum sDAI forks (median 22.039 s; p95 22.416 s; maximum 22.453 s) and 10 normal local-fixture forks (median 5.458 s; p95 5.832 s). These are sequential warm-service runs with two-second polling, not concurrent-load or cold-start measurements. Every receipt and elapsed time is preserved in `evidence/hosted-reliability.json`.

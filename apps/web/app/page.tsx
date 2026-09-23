@@ -202,7 +202,11 @@ export default function Home() {
           <button onClick={replay}>Recorded demo</button>
           <span className="header-note">
             <i />{' '}
-            {registry?.candidate?.enabled ? 'ETHEREUM · READ-ONLY' : 'TEST VAULTS · LIVE DEMO'}
+            {!registry
+              ? 'CHECKING COVERAGE'
+              : registry.candidate?.enabled
+                ? 'ETHEREUM · READ-ONLY'
+                : 'TEST VAULTS · LIVE DEMO'}
           </span>
         </nav>
       </header>
@@ -240,7 +244,11 @@ export default function Home() {
                         history.pushState(null, '', '/inspect');
                       }}
                     >
-                      {registry?.candidate?.enabled ? 'Inspect a position' : 'Try with test funds'}{' '}
+                      {!registry
+                        ? 'Inspect a position'
+                        : registry.candidate?.enabled
+                          ? 'Inspect a position'
+                          : 'Try with test funds'}{' '}
                       <span>↗</span>
                     </button>
                     <button className="text-button" onClick={replay}>
@@ -248,9 +256,11 @@ export default function Home() {
                     </button>
                   </div>
                   <p className="fine">
-                    {registry?.candidate?.enabled
-                      ? 'Savings DAI on Ethereum: inspect and rehearse without signing. Mainnet broadcasting is disabled.'
-                      : 'Live demo uses disposable test funds. The recorded Ethereum example is historical evidence.'}
+                    {!registry
+                      ? 'Loading current vault coverage. No wallet connection is required to inspect.'
+                      : registry.candidate?.enabled
+                        ? 'Savings DAI on Ethereum: inspect and rehearse without signing. Mainnet broadcasting is disabled.'
+                        : 'Live demo uses disposable test funds. The recorded Ethereum example is historical evidence.'}
                   </p>
                 </div>
                 <div className="field-note">
@@ -293,9 +303,11 @@ export default function Home() {
                   restricted, capped, and reverting.
                 </p>
                 <p>
-                  {registry?.candidate?.enabled
-                    ? 'Savings DAI on Ethereum is enabled for read-only inspection and private-fork rehearsal. Mainnet broadcasting remains disabled.'
-                    : 'Savings DAI on Ethereum is a candidate integration. Its validation gates are not yet complete.'}
+                  {!registry
+                    ? 'Checking current Ethereum rehearsal availability…'
+                    : registry.candidate?.enabled
+                      ? 'Savings DAI on Ethereum is enabled for read-only inspection and private-fork rehearsal. Mainnet broadcasting remains disabled.'
+                      : 'Savings DAI on Ethereum is a candidate integration. Its validation gates are not yet complete.'}
                 </p>
                 <p className="fine">
                   No lost-key recovery. No bypass of contract restrictions. No guarantee of a future

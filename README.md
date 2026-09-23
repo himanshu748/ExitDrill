@@ -10,7 +10,7 @@ Built from the existing Cursor PRD in this same repository. The complete specifi
 
 - Live app: https://jhahimanshu653--exitdrill-web.modal.run
 - Pitch deck: [PDF](docs/submission/ExitDrill-pitch.pdf) · [editable PowerPoint](docs/submission/ExitDrill-pitch.pptx)
-- [Rubric review](docs/RUBRIC.md) and [measured evidence](docs/evidence/)
+- [Rubric review](docs/RUBRIC.md), [judge walkthrough](docs/JUDGE-WALKTHROUGH.md), and [measured evidence](docs/evidence/)
 
 The public demo resets on container restart. Its test chain RPC stays private. Export kits to preserve evidence; use the local setup below for fresh fixture checks.
 
@@ -114,3 +114,9 @@ MIT application license. OpenZeppelin, React, and Viem retain their respective l
 ## Deploy the judge demo
 
 With an authenticated Modal CLI, run `modal deploy deploy/modal_app.py`. The image installs CA certificates, compiles contracts, verifies all four fork outcomes, and builds both interfaces. It runs one container with loopback-only RPC/API and exposes only the web server through Modal TLS. The web server waits for API readiness. Disposable chain/session state resets when the container restarts; this is a prototype hosting configuration.
+
+## Repeat the hosted reliability check
+
+`npm run verify:reliability` runs 30 sequential fresh-inspection journeys against the public demo: 20 Ethereum sDAI forks and 10 local normal-vault forks. It records every attempt without retries in `docs/evidence/hosted-reliability.json`, including errors. Successful latency includes inspection, queue, execution, and a two-second polling interval. This is a warm-service check, not a load test or a cold-start measurement. Set `EXITDRILL_DEMO_ORIGIN`, `EXITDRILL_RUNS`, or `EXITDRILL_RELIABILITY_OUTPUT` to target another deployment or output.
+
+For the optional live kit HTTPS check, use `EXITDRILL_VERIFY_PUBLIC_RPC=1 EXITDRILL_KIT_TEST_RPC=https://eth.drpc.org npm run verify:kit`. A provider failure remains a failure; changing providers requires a separate explicit run.
