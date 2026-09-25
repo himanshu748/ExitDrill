@@ -47,6 +47,37 @@ it('enforces strict request fields', async () =>
       })
     ).statusCode,
   ).toBe(400));
+it('rejects an amount above the inspected share balance before queueing', async () => {
+  const res = await app.inject({
+    method: 'POST',
+    url: '/v1/drills',
+    headers: { ...headers, 'idempotency-key': randomUUID() },
+    payload: {
+      inspectionId: inspection.id,
+      sharesRaw: String(BigInt(inspection.sharesRaw) + 1n),
+    },
+  });
+  expect(res.statusCode).toBe(400);
+  expect(res.json().code).toBe('INVALID_INPUT');
+});
+it('never rate limits drill status polling and limits each client separately', async () => {
+  for (let n = 0; n < 100; n++)
+    expect((await app.inject({ url: '/v1/drills/' + randomUUID(), headers })).statusCode).not.toBe(
+      429,
+    );
+  const burst = async (ip: string) => {
+    let last = 0;
+    for (let n = 0; n < 91; n++)
+      last = (await app.inject({ url: '/v1/registry', headers: { 'x-forwarded-for': ip } }))
+        .statusCode;
+    return last;
+  };
+  expect(await burst('203.0.113.1')).toBe(429);
+  expect(
+    (await app.inject({ url: '/v1/registry', headers: { 'x-forwarded-for': '203.0.113.2' } }))
+      .statusCode,
+  ).toBe(200);
+});
 it('reuses idempotent job and protects session scope', async () => {
   const payload = { inspectionId: inspection.id, sharesRaw: '1000000000000000000' };
   const h = { ...headers, 'idempotency-key': randomUUID() };

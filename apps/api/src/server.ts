@@ -28,7 +28,16 @@ const upstream = (r: any) =>
 export async function createAPI() {
   const app = Fastify({ bodyLimit: 16384, logger: false });
   await app.register(cookie);
-  await app.register(rateLimit, { max: 90, timeWindow: '1 minute' });
+  // The API binds to loopback behind the web proxy, so the socket address is the same for every visitor.
+  await app.register(rateLimit, {
+    max: 90,
+    timeWindow: '1 minute',
+    keyGenerator: (req) =>
+      String(req.headers['x-forwarded-for'] ?? '')
+        .split(',')[0]
+        .trim() || req.ip,
+    allowList: (req) => req.method === 'GET' && req.url.startsWith('/v1/drills/'),
+  });
   app.addHook('onRequest', async (req, reply) => {
     reply.header('Cache-Control', 'no-store').header('X-Content-Type-Options', 'nosniff');
     if (!['GET', 'HEAD'].includes(req.method) && req.headers.origin !== allowed)
@@ -101,10 +110,12 @@ export async function createAPI() {
   });
   app.get('/v1/registry', async () => ({
     ...fixtures(),
-    exampleOwner: existsSync('registry/sdai-mainnet.validated.json')
-      ? JSON.parse(readFileSync('docs/evidence/sdai-secondary-rehearsal.json', 'utf8')).snapshot
-          .owner
-      : null,
+    exampleOwner:
+      existsSync('registry/sdai-mainnet.validated.json') &&
+      existsSync('docs/evidence/sdai-secondary-rehearsal.json')
+        ? JSON.parse(readFileSync('docs/evidence/sdai-secondary-rehearsal.json', 'utf8')).snapshot
+            .owner
+        : null,
     candidate: {
       label: 'Savings DAI · Ethereum',
       enabled: existsSync('registry/sdai-mainnet.validated.json'),
@@ -177,6 +188,8 @@ export async function createAPI() {
     if (!inspection) fail(403, 'ACCESS_DENIED', 'Inspection is not available in your session.');
     if (Date.now() - inspection.created > 60000)
       fail(410, 'INSPECTION_EXPIRED', 'Inspect the position again before starting a new drill.');
+    if (BigInt(input.sharesRaw) > BigInt(JSON.parse(inspection.data).sharesRaw))
+      fail(400, 'INVALID_INPUT', 'The amount is larger than the inspected share balance.');
     const n = db
       .prepare("SELECT count(*) n FROM jobs WHERE status NOT IN ('COMPLETED','FAILED_UNKNOWN')")
       .get() as any;
@@ -244,20 +257,20 @@ export async function createAPI() {
     return { ...r, sourceMode: 'RECORDED_REPLAY' };
   });
   let busy = false;
-  // A crashed process never resumes an uncertain execution against shared mutable state.
-  for (const j of db
-    .prepare("SELECT * FROM jobs WHERE status NOT IN ('QUEUED','COMPLETED','FAILED_UNKNOWN')")
-    .all() as any[]) {
+  const failJob = (j: any, reason: string) => {
     const i = db.prepare('SELECT data FROM inspections WHERE id=?').get(j.inspection) as any;
-    const s = JSON.parse(i.data);
+    let s: any = null;
+    try {
+      s = i ? JSON.parse(i.data) : null;
+    } catch {}
     const r = {
       schemaVersion: 1,
       id: j.id,
       createdAt: new Date().toISOString(),
       verdict: 'UNKNOWN',
-      reason: 'Worker interrupted before all evidence was persisted.',
+      reason,
       evidenceLevel: 'READS_ONLY',
-      environment: s.registry.environment,
+      environment: s?.registry?.environment ?? null,
       snapshot: s,
       plan: null,
       steps: JSON.parse(j.events),
@@ -270,18 +283,24 @@ export async function createAPI() {
       JSON.stringify(r),
       j.id,
     );
-  }
+  };
+  // A crashed process never resumes an uncertain execution against shared mutable state.
+  for (const j of db
+    .prepare("SELECT * FROM jobs WHERE status NOT IN ('QUEUED','COMPLETED','FAILED_UNKNOWN')")
+    .all() as any[])
+    failJob(j, 'Worker interrupted before all evidence was persisted.');
   const timer = setInterval(async () => {
     if (busy) return;
     busy = true;
+    let j: any;
     try {
-      const j = db
+      j = db
         .prepare("SELECT * FROM jobs WHERE status='QUEUED' ORDER BY created LIMIT 1")
         .get() as any;
       if (!j) return;
       db.prepare("UPDATE jobs SET status='VALIDATING' WHERE id=? AND status='QUEUED'").run(j.id);
       const i = db.prepare('SELECT data FROM inspections WHERE id=?').get(j.inspection) as any;
-      if (!i) return;
+      if (!i) return failJob(j, 'The inspection for this rehearsal is no longer available.');
       const s = JSON.parse(i.data);
       const events: any[] = [];
       const r = await rehearse(
@@ -305,6 +324,8 @@ export async function createAPI() {
         JSON.stringify(r),
         j.id,
       );
+    } catch {
+      if (j) failJob(j, 'The rehearsal was interrupted. Required evidence could not be verified.');
     } finally {
       busy = false;
     }
