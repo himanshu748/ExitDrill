@@ -355,12 +355,20 @@ function Kit() {
                 <dd>
                   <code>{fresh.plan.owner}</code>
                 </dd>
-                <dt>Target · local chain 31337</dt>
+                <dt>
+                  Target ·{' '}
+                  {fresh.snapshot.registry.chainId === 1
+                    ? 'Ethereum'
+                    : `local chain ${fresh.snapshot.registry.chainId}`}
+                </dt>
                 <dd>
                   <code>{fresh.plan.target}</code>
                 </dd>
                 <dt>Shares to redeem</dt>
-                <dd>{quantity(fresh.plan.sharesRaw)} tSHARE</dd>
+                <dd>
+                  {quantity(fresh.plan.sharesRaw, fresh.snapshot.registry.decimals)}{' '}
+                  {fresh.snapshot.registry.symbol}
+                </dd>
                 <dt>Method</dt>
                 <dd>redeem · selector {fresh.plan.calldata.slice(0, 10)}</dd>
               </dl>

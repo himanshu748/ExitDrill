@@ -9,8 +9,8 @@ async function api(path: string, body?: any, method?: string, headers?: any) {
     headers: { 'content-type': 'application/json', ...headers },
     ...(body === undefined ? {} : { body: JSON.stringify(body) }),
   });
-  const data = await r.json();
-  if (!r.ok) throw Error(data.message ?? 'Request unavailable');
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw Error(data.message ?? 'The service did not respond.');
   return data;
 }
 export default function Home() {
@@ -27,6 +27,40 @@ export default function Home() {
     [exportOpen, setExportOpen] = useState(false),
     [saved, setSaved] = useState(false);
   const modalRef = useRef<HTMLElement>(null);
+  const snapshotRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLElement>(null);
+  const [started, setStarted] = useState(0),
+    [now, setNow] = useState(0);
+  useEffect(() => {
+    if (!started || report) return;
+    const t = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(t);
+  }, [started, report]);
+  useEffect(() => {
+    if (snapshot) snapshotRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [snapshot]);
+  useEffect(() => {
+    if (report || job) resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [report, job?.id]);
+  useEffect(() => {
+    const back = () => {
+      if (timer.current) clearTimeout(timer.current);
+      setError('');
+      const match = location.pathname.match(/^\/drills\/([a-f0-9-]+)$/);
+      if (match) {
+        setView('drill');
+        setReport(null);
+        setBusy(true);
+        poll(match[1]);
+      } else {
+        setBusy(false);
+        setView(location.pathname === '/inspect' ? 'inspect' : 'home');
+        if (location.pathname !== '/inspect') setReport(null);
+      }
+    };
+    window.addEventListener('popstate', back);
+    return () => window.removeEventListener('popstate', back);
+  }, []);
   useEffect(() => {
     if (!exportOpen) return;
     const previous = document.activeElement as HTMLElement;
@@ -79,13 +113,13 @@ export default function Home() {
     setJob(null);
     setError('');
   };
-  async function inspect() {
+  async function inspect(o = owner, v = vault) {
     setBusy(true);
     setError('');
     setReport(null);
     try {
       await api('/v1/session', {});
-      const s = await api('/v1/inspections', { owner, vaultId: vault });
+      const s = await api('/v1/inspections', { owner: o, vaultId: v });
       setSnapshot(s);
       setAmount(
         formatUnits(
@@ -101,6 +135,14 @@ export default function Home() {
       setBusy(false);
     }
   }
+  function scenario(o: string, v: string) {
+    change();
+    setOwner(o);
+    setVault(v);
+    setView('inspect');
+    history.pushState(null, '', '/inspect');
+    inspect(o, v);
+  }
   async function drill() {
     setBusy(true);
     setError('');
@@ -115,6 +157,7 @@ export default function Home() {
         { 'idempotency-key': crypto.randomUUID() },
       );
       setJob(j);
+      setStarted(Date.now());
       setView('drill');
       history.pushState(null, '', '/drills/' + j.id);
       poll(j.id);
@@ -123,10 +166,11 @@ export default function Home() {
       setBusy(false);
     }
   }
-  async function poll(id: string) {
+  async function poll(id: string, misses = 0) {
     try {
       const j = await api('/v1/drills/' + id);
       setJob(j);
+      setError('');
       if (j.receipt) {
         setReport(j.receipt);
         setBusy(false);
@@ -134,7 +178,12 @@ export default function Home() {
       }
       timer.current = setTimeout(() => poll(id), 1000);
     } catch (e: any) {
-      setError(e.message);
+      if (misses < 5) {
+        setError('Connection interrupted. Still checking this rehearsal…');
+        timer.current = setTimeout(() => poll(id, misses + 1), 2000 * (misses + 1));
+        return;
+      }
+      setError(e.message + ' Reload this page to check the rehearsal again.');
       setBusy(false);
     }
   }
@@ -199,7 +248,9 @@ export default function Home() {
           >
             Inspector
           </button>
-          <button onClick={replay}>Recorded demo</button>
+          <button onClick={replay} disabled={busy}>
+            Recorded demo
+          </button>
           <span className="header-note">
             <i />{' '}
             {!registry
@@ -220,7 +271,7 @@ export default function Home() {
               <h1>
                 Test your way out
                 <br />
-                before you <em>need it.</em>
+                before you <em>need&nbsp;it.</em>
               </h1>
               <div className="hero-bottom">
                 <div>
@@ -251,10 +302,43 @@ export default function Home() {
                           : 'Try with test funds'}{' '}
                       <span>↗</span>
                     </button>
-                    <button className="text-button" onClick={replay}>
-                      Open a recorded demo <span>→</span>
+                    <button className="text-button" onClick={replay} disabled={busy}>
+                      {busy ? 'Opening the recorded demo…' : 'Open a recorded demo'} <span>→</span>
                     </button>
                   </div>
+                  {registry?.entries?.length > 0 && (
+                    <div className="scenarios" aria-label="One-click scenarios">
+                      <span className="eyebrow">OR PICK A SCENARIO · ONE CLICK</span>
+                      <div>
+                        {registry.entries
+                          .filter((r: any) => r.chainId !== 1 || registry.exampleOwner)
+                          .map((r: any) => (
+                            <button
+                              key={r.id}
+                              disabled={busy}
+                              onClick={() =>
+                                scenario(
+                                  r.chainId === 1 ? (registry.exampleOwner ?? '') : registry.owner,
+                                  r.id,
+                                )
+                              }
+                            >
+                              <b>{r.chainId === 1 ? 'Real sDAI position' : r.label}</b>
+                              <small>
+                                {(
+                                  {
+                                    'Normal exit': 'Expect PASS',
+                                    'Redemption restricted': 'Vault allows zero',
+                                    'Limited redemption': 'Vault caps the exit',
+                                    'Execution reverts': 'Preview lies, call fails',
+                                  } as Record<string, string>
+                                )[r.label] ?? 'Ethereum mainnet fork, ~20 s'}
+                              </small>
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  )}
                   <p className="fine">
                     {!registry
                       ? 'Loading current vault coverage. No wallet connection is required to inspect.'
@@ -265,7 +349,7 @@ export default function Home() {
                 </div>
                 <div className="field-note">
                   <span className="eyebrow">PREPARATION, NOT A PROMISE</span>
-                  <span className="note-number">01—04</span>
+                  <span className="note-number">FOUR STEPS</span>
                   <p>
                     A clear plan.
                     <br />
@@ -321,13 +405,13 @@ export default function Home() {
             <div className="workspace-heading">
               <div>
                 <span className="eyebrow">
-                  {view === 'inspect' ? '01 / INSPECT A POSITION' : '02—03 / EXIT REHEARSAL'}
+                  {view === 'inspect' ? '01 / INSPECT A POSITION' : '02 / EXIT REHEARSAL'}
                 </span>
                 <h1>
                   {view === 'inspect' ? 'Start with what’s on-chain.' : 'Your exit, examined.'}
                 </h1>
               </div>
-              <span className="tag">
+              <span className="tag" hidden={view === 'drill' && !!report}>
                 {(
                   (view === 'drill' ? report?.environment : undefined) ??
                   registry?.entries?.find((r: any) => r.id === vault)?.environment ??
@@ -377,10 +461,12 @@ export default function Home() {
                         >
                           Try a public sDAI position ↗
                         </button>
-                        <p className="fine">
-                          The example is a public Ethereum address. It is not your wallet; no
-                          ownership or signature is required to rehearse it.
-                        </p>
+                        {vault === 'sdai-mainnet' && owner === registry.exampleOwner && (
+                          <p className="fine">
+                            The example is a public Ethereum address. It is not your wallet; no
+                            ownership or signature is required to rehearse it.
+                          </p>
+                        )}
                       </>
                     )}
                     <label htmlFor="vault">Supported vault</label>
@@ -405,27 +491,28 @@ export default function Home() {
                     <button
                       className="primary full"
                       disabled={busy || !registry?.entries?.length}
-                      onClick={inspect}
+                      onClick={() => inspect()}
                     >
                       {busy ? 'Reading the pinned snapshot…' : 'Inspect position'} <span>→</span>
                     </button>
                     {snapshot && (
-                      <div className="snapshot">
+                      <div className="snapshot" ref={snapshotRef}>
                         <span className="eyebrow">
-                          ✓ IDENTITY MATCHED · BLOCK {snapshot.sourceBlock.number}
+                          ✓ VAULT CODE MATCHES THE REGISTRY · READ AT BLOCK{' '}
+                          {snapshot.sourceBlock.number}
                         </span>
                         <div className="metrics">
                           <div>
                             <span>Share balance</span>
                             <strong>
-                              {quantity(snapshot.sharesRaw)}{' '}
+                              {quantity(snapshot.sharesRaw, snapshot.registry.decimals)}{' '}
                               <small>{snapshot.registry.symbol}</small>
                             </strong>
                           </div>
                           <div>
                             <span>Redeemable now</span>
                             <strong>
-                              {quantity(snapshot.maxRedeemRaw)}{' '}
+                              {quantity(snapshot.maxRedeemRaw, snapshot.registry.decimals)}{' '}
                               <small>{snapshot.registry.symbol}</small>
                             </strong>
                           </div>
@@ -454,6 +541,7 @@ export default function Home() {
                                     { 'idempotency-key': crypto.randomUUID() },
                                   );
                                   setJob(j);
+                                  setStarted(Date.now());
                                   setView('drill');
                                   history.pushState(null, '', '/drills/' + j.id);
                                   poll(j.id);
@@ -463,7 +551,7 @@ export default function Home() {
                                 }
                               }}
                             >
-                              Record this blocked exit →
+                              {busy ? 'Starting the rehearsal…' : 'Record this blocked exit →'}
                             </button>
                           </>
                         ) : (
@@ -506,12 +594,23 @@ export default function Home() {
                                 </button>
                               ))}
                             </div>
+                            {BigInt(snapshot.maxRedeemRaw) < BigInt(snapshot.sharesRaw) && (
+                              <p className="notice">
+                                The vault caps this exit at{' '}
+                                {quantity(snapshot.maxRedeemRaw, snapshot.registry.decimals)} of{' '}
+                                {quantity(snapshot.sharesRaw, snapshot.registry.decimals)} shares
+                                right now. Try an amount above the cap to see it refused.
+                              </p>
+                            )}
                             <p className="fine">
-                              Exact output is observed during execution. The balance-wide preview is{' '}
-                              {quantity(snapshot.assetsRaw)} {snapshot.registry.assetSymbol}.
+                              The vault previews the whole balance at{' '}
+                              {quantity(snapshot.assetsRaw, snapshot.registry.assetDecimals)}{' '}
+                              {snapshot.registry.assetSymbol}. The rehearsal measures what actually
+                              arrives.
                             </p>
                             <button className="primary full" disabled={busy} onClick={drill}>
-                              Run exit rehearsal <span>↗</span>
+                              {busy ? 'Starting the rehearsal…' : 'Run exit rehearsal'}{' '}
+                              <span>→</span>
                             </button>
                           </>
                         )}
@@ -519,7 +618,7 @@ export default function Home() {
                     )}
                   </section>
                 ) : (
-                  <section className="panel">
+                  <section className="panel" ref={resultRef}>
                     {report ? (
                       <>
                         <ReportView report={report} />
@@ -532,6 +631,18 @@ export default function Home() {
                             Export recovery kit <span>↓</span>
                           </button>
                         )}
+                        <button
+                          className="secondary full"
+                          onClick={() => {
+                            change();
+                            setView('inspect');
+                            history.pushState(null, '', '/inspect');
+                          }}
+                        >
+                          {report.sourceMode === 'RECORDED_REPLAY'
+                            ? 'Run a live rehearsal now →'
+                            : 'Try another scenario →'}
+                        </button>
                         {saved && (
                           <p role="status">
                             Kit downloaded. Extract the ZIP and open START_HERE.html in your
@@ -544,16 +655,31 @@ export default function Home() {
                       <>
                         <span className="eyebrow">PRIVATE FORK · NO MAINNET TRANSACTION</span>
                         <h2>Testing the exact exit.</h2>
-                        <p>Each step below comes from the worker’s persisted events.</p>
+                        <p>
+                          Each step is recorded by the rehearsal worker as it happens.
+                          {registry?.entries?.find((r: any) => r.id === vault)?.chainId === 1 &&
+                            ' An Ethereum fork fetches live state, so this usually takes about 20 seconds.'}
+                        </p>
                         <div className="ledger" aria-live="polite">
                           {job?.events?.map((s: any, i: number) => (
-                            <div key={i}>
+                            <div key={i} className={i === job.events.length - 1 ? 'active' : ''}>
                               <span className="step-index">{i + 1}</span>
                               {s.stage}
                             </div>
                           ))}
                         </div>
-                        <p role="status">{job?.status ?? 'Preparing request…'}</p>
+                        <p role="status" className="progress">
+                          <span className="spinner" aria-hidden="true" />
+                          {(
+                            {
+                              QUEUED: 'Waiting for the rehearsal worker…',
+                              VALIDATING: 'Checking the plan…',
+                            } as Record<string, string>
+                          )[job?.status] ?? (job?.status ? 'Working…' : 'Preparing request…')}
+                          {started > 0 && now > started && (
+                            <time> {Math.floor((now - started) / 1000)} s</time>
+                          )}
+                        </p>
                         {!busy && job?.id && (
                           <button
                             className="secondary"

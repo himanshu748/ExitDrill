@@ -1,7 +1,50 @@
 import React from 'react';
 import { formatUnits } from 'viem';
-export const quantity = (raw: string | undefined, decimals = 18) =>
-  raw === undefined ? 'Not observed' : formatUnits(BigInt(raw), decimals);
+export const exact = (raw: string | undefined, decimals = 18) =>
+  raw === undefined || raw === null ? undefined : formatUnits(BigInt(raw), decimals);
+// Display only: evidence and raw JSON keep every wei.
+export const quantity = (raw: string | undefined, decimals = 18) => {
+  const full = exact(raw, decimals);
+  if (full === undefined) return 'Not observed';
+  const [whole, fraction = ''] = full.split('.');
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const short = fraction.slice(0, 4).replace(/0+$/, '');
+  if (!short && /[1-9]/.test(fraction) && whole === '0') return '<0.0001';
+  return short ? `${grouped}.${short}` : grouped;
+};
+const percent = (part: bigint, whole: bigint) =>
+  whole === 0n ? '0' : (Number((part * 10000n) / whole) / 100).toLocaleString();
+function Amount({ raw, decimals, unit }: { raw?: string; decimals?: number; unit: string }) {
+  const full = exact(raw, decimals);
+  if (full === undefined) return <strong>Not observed</strong>;
+  return (
+    <strong title={`${full} ${unit}`}>
+      {quantity(raw, decimals)} <small>{unit}</small>
+    </strong>
+  );
+}
+export function plainAnswer(r: any) {
+  const reg = r.snapshot.registry;
+  const tested = r.plan?.sharesRaw;
+  const balance = BigInt(r.snapshot.sharesRaw ?? '0');
+  const limit = BigInt(r.snapshot.maxRedeemRaw ?? '0');
+  if (r.verdict === 'PASS') {
+    const capped = limit < balance;
+    return (
+      `${quantity(tested, reg.decimals)} ${reg.symbol} became ${quantity(r.balances?.observedAssetsRaw, reg.assetDecimals)} ${reg.assetSymbol} in a private copy of the chain.` +
+      (capped
+        ? ` The vault only lets ${quantity(r.snapshot.maxRedeemRaw, reg.decimals)} of ${quantity(r.snapshot.sharesRaw, reg.decimals)} shares (${percent(limit, balance)}%) leave right now.`
+        : '')
+    );
+  }
+  if (r.verdict === 'BLOCKED' && limit === 0n && balance > 0n)
+    return 'The vault currently allows zero shares to be redeemed. Nothing can leave until that changes.';
+  if (r.verdict === 'BLOCKED' && r.evidenceLevel === 'CALL_PREFLIGHT')
+    return 'The vault reported a positive preview, but the real redemption call failed. A preview alone would have missed this.';
+  if (r.verdict === 'UNKNOWN')
+    return 'No conclusion is drawn. A missing or failed response is never treated as a successful exit.';
+  return null;
+}
 export const headlines: Record<string, string> = {
   PASS: 'Rehearsal succeeded.',
   BLOCKED: 'This exit was blocked in the test.',
@@ -38,7 +81,7 @@ export function ReportView({ report: r }: { report: any }) {
             ? 'RECORDED REPLAY'
             : r.environment.replaceAll('_', ' ')}
         </span>
-        <span>{new Date(r.createdAt).toLocaleString()}</span>
+        <time>{new Date(r.createdAt).toLocaleString()}</time>
       </div>
       <div className={`outcome ${r.verdict.toLowerCase()}`}>
         <span className="eyebrow">
@@ -46,35 +89,45 @@ export function ReportView({ report: r }: { report: any }) {
           {r.evidenceLevel.replaceAll('_', ' ')}
         </span>
         <h2>{headlines[r.verdict]}</h2>
+        {plainAnswer(r) && <p className="answer">{plainAnswer(r)}</p>}
         <p>{r.reason}</p>
       </div>
       <div className="metrics">
         <div>
           <span>Shares tested</span>
-          <strong>
-            {quantity(r.plan?.sharesRaw)} <small>{r.snapshot.registry.symbol}</small>
-          </strong>
+          <Amount
+            raw={r.plan?.sharesRaw}
+            decimals={r.snapshot.registry.decimals}
+            unit={r.snapshot.registry.symbol}
+          />
         </div>
         <div>
           <span>Assets received in rehearsal</span>
-          <strong>
-            {quantity(r.balances?.observedAssetsRaw)}{' '}
-            <small>{r.snapshot.registry.assetSymbol}</small>
-          </strong>
+          <Amount
+            raw={r.balances?.observedAssetsRaw}
+            decimals={r.snapshot.registry.assetDecimals}
+            unit={r.snapshot.registry.assetSymbol}
+          />
         </div>
       </div>
-      <p className="fine">
-        Estimated output before execution: {quantity(r.estimatedAssetsRaw)}{' '}
-        {r.snapshot.registry.assetSymbol}. Original gas assessment:{' '}
-        {r.gasAssessment?.toLowerCase() ?? 'unknown'}.
-      </p>
+      {(r.estimatedAssetsRaw ||
+        (r.gasAssessment && r.gasAssessment !== 'UNKNOWN' && r.adjustments.length === 0)) && (
+        <p className="fine">
+          {r.estimatedAssetsRaw &&
+            `Estimated output before execution: ${quantity(r.estimatedAssetsRaw, r.snapshot.registry.assetDecimals)} ${r.snapshot.registry.assetSymbol}. `}
+          {r.gasAssessment &&
+            r.gasAssessment !== 'UNKNOWN' &&
+            r.adjustments.length === 0 &&
+            `Wallet gas: ${r.gasAssessment.toLowerCase()}.`}
+        </p>
+      )}
       {r.adjustments.length > 0 && (
         <div className="notice">
           {r.verdict === 'PASS'
             ? 'Contract execution succeeded with simulated gas funding.'
             : 'The fork used simulated gas funding.'}{' '}
-          Original wallet gas assessment: <b>{r.gasAssessment.toLowerCase()}</b>. This is not a
-          ready-to-send guarantee.
+          Original wallet gas assessment: <b>{r.gasAssessment?.toLowerCase() ?? 'unknown'}</b>. This
+          is not a ready-to-send guarantee.
         </div>
       )}
       <section className="ledger">
