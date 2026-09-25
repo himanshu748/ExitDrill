@@ -58,6 +58,13 @@ async function forward(payload) {
   if (!endpoint) throw Error('Configure an RPC first');
   const d = await destination(endpoint);
   return new Promise((resolve, reject) => {
+    const deadline = setTimeout(() => call.destroy(Error('RPC timeout')), 15000);
+    const done = (fn) => (value) => {
+      clearTimeout(deadline);
+      fn(value);
+    };
+    resolve = done(resolve);
+    reject = done(reject);
     const call = (d.url.protocol === 'https:' ? httpsRequest : httpRequest)(
       d.url,
       {
@@ -74,6 +81,8 @@ async function forward(payload) {
           return;
         }
         let text = '';
+        res.on('aborted', () => reject(Error('RPC unavailable')));
+        res.on('error', () => reject(Error('RPC unavailable')));
         res.on('data', (chunk) => {
           text += chunk;
           if (text.length > 2e6) {
