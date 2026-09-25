@@ -76,7 +76,7 @@ The research scripts default to public endpoints. User-provided RPC credentials 
 
 ## Verify
 
-With the local fixture chain running:
+`npm test` starts its own Anvil chain and fixtures when nothing is listening on 127.0.0.1:8545, and reuses a running chain otherwise. The fixture and kit checks need the local chain running (`npm run chain:start`, then `npm run fixtures:deploy`):
 
 ```sh
 npm test
