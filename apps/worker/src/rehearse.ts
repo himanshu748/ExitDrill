@@ -75,7 +75,10 @@ export async function rehearse(
     verifyPlan(r.plan, s.registry);
     if (BigInt(shares) > BigInt(s.sharesRaw) || BigInt(shares) > BigInt(s.maxRedeemRaw)) {
       r.verdict = 'BLOCKED';
-      r.reason = 'Requested shares exceed the observed redemption limit.';
+      r.reason =
+        BigInt(s.maxRedeemRaw) === 0n
+          ? 'The vault reports a redemption limit of zero shares for this owner (maxRedeem = 0).'
+          : 'Requested shares exceed the observed redemption limit.';
       return r;
     }
     const live = client(upstream);
@@ -124,8 +127,12 @@ export async function rehearse(
         e?.walk?.((x: any) => x?.name === 'ExecutionRevertedError') ||
         /revert/i.test(e?.shortMessage ?? '');
       r.verdict = reverted ? 'BLOCKED' : 'UNKNOWN';
+      // Only a short token-like revert string is kept; raw provider errors can carry endpoint details.
+      const why = /reverted(?: with reason string)?:?\s*'?([A-Za-z0-9_ .-]{1,80})/.exec(
+        String(e?.walk?.((x: any) => x?.name === 'ExecutionRevertedError')?.details ?? ''),
+      )?.[1];
       r.reason = reverted
-        ? 'The exact redemption call reverted in the private fork.'
+        ? `The exact redemption call reverted in the private fork${why ? ` (reason: ${why.trim()})` : ''}.`
         : 'Gas estimation was interrupted; no contract conclusion is available.';
       r.evidenceLevel = 'CALL_PREFLIGHT';
       return r;
@@ -190,6 +197,13 @@ export async function rehearse(
       BigInt(before.supply) - BigInt(after.supply) !== BigInt(shares)
     )
       throw Error('OUTCOME_INVARIANT_FAILED');
+    if (e.assets === 0n) {
+      r.verdict = 'BLOCKED';
+      r.reason = 'The redemption burned shares but returned no underlying assets.';
+      return r;
+    }
+    if (e.assets < BigInt(r.estimatedAssetsRaw!))
+      r.limitations.push('Observed assets were below the previewRedeem estimate.');
     await canonical(live, s.sourceBlock);
     if (secondary) await canonical(client(secondary), s.sourceBlock);
     r.verdict = 'PASS';
