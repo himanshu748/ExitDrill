@@ -9,6 +9,13 @@ export async function freePort() {
   await new Promise<void>((r) => s.close(() => r()));
   return port as number;
 }
+const live = new Set<number>();
+process.on('exit', () => {
+  for (const pid of live)
+    try {
+      process.kill(-pid, 'SIGKILL');
+    } catch {}
+});
 export async function startAnvil(fork?: { url: string; block: string }, fixedPort?: number) {
   const port = fixedPort ?? (await freePort());
   const url = `http://127.0.0.1:${port}`;
@@ -18,13 +25,21 @@ export async function startAnvil(fork?: { url: string; block: string }, fixedPor
   const child = spawn(
     process.execPath,
     [resolve('node_modules/@foundry-rs/anvil/bin.mjs'), ...args],
-    { stdio: 'ignore' },
+    // Own process group: the npm wrapper does not forward SIGKILL to the real anvil binary.
+    { stdio: 'ignore', detached: true },
   );
+  if (child.pid) live.add(child.pid);
+  child.on('exit', () => live.delete(child.pid!));
+  const kill = (signal: NodeJS.Signals) => {
+    try {
+      process.kill(-child.pid!, signal);
+    } catch {}
+  };
   let failed = false;
   child.on('error', () => {
     failed = true;
   });
-  const timer = setTimeout(() => child.kill('SIGKILL'), 180000);
+  const timer = setTimeout(() => kill('SIGKILL'), 180000);
   timer.unref();
   // A forked estimate can read many remote storage slots before replying.
   const c = client(url, fork ? 90000 : 12000);
@@ -43,7 +58,7 @@ export async function startAnvil(fork?: { url: string; block: string }, fixedPor
           child,
           stop: () => {
             clearTimeout(timer);
-            child.kill('SIGTERM');
+            kill('SIGTERM');
           },
         };
       } catch {}
@@ -52,7 +67,7 @@ export async function startAnvil(fork?: { url: string; block: string }, fixedPor
     throw Error('ANVIL_TIMEOUT');
   } catch (e) {
     clearTimeout(timer);
-    child.kill('SIGKILL');
+    kill('SIGKILL');
     throw e;
   }
 }
