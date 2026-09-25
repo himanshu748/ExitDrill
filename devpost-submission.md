@@ -24,6 +24,12 @@ A real sDAI position was rehearsed inside a private Ethereum-state fork at block
 
 That is historical fork evidence, using a public address as a hypothetical position. It does not establish wallet ownership. No mainnet transaction was sent. The second-provider validation and repeated fork passed on 22 September, enabling live sDAI inspection and rehearsal. A fresh hosted browser run also passed: one sDAI produced 1.180831583669003968 DAI in its private fork. That run's worker steps took about 23 seconds; this is one observation, not a latency distribution.
 
+Measured reliability
+
+On 23 September, I ran 30 sequential hosted journeys with fresh inspections and no retries: all 20 Ethereum sDAI rehearsals and all 10 local-fixture rehearsals passed. Ethereum latency, including inspection, queue, execution, and two-second polling, had a median of 22.039 seconds and a 95th percentile of 22.416 seconds. Local-fixture median latency was 5.458 seconds. This warm-service sample does not measure cold starts, concurrent load, or future reliability. Every attempt and receipt is published at https://github.com/himanshu748/ExitDrill/blob/main/docs/evidence/hosted-reliability.json .
+
+I also repeated the browser export and app-off kit check on 23 September: after stopping local web/API services, the downloaded kit completed a fresh local call preflight. Five new tests cover RPC loss after inspection, a changed source block, account/network changes during wallet preflight, and a reverted wallet call. The kit rejected a public RPC certificate mismatch from the local machine; an explicit check through the secondary HTTPS provider passed without bypassing TLS verification.
+
 Challenges and what I learned
 
 A successful preview is weaker evidence than an executed redemption. The reverting fixture makes that distinction visible. Provider failures also need their own outcome: public archive RPC errors interrupted some validation attempts. Longer bounded fork timeouts and paced RPC reads allowed the second-provider repeat to complete; interrupted attempts remain UNKNOWN. The Ethereum outage test also exposed a Node.js DNS callback incompatibility in the kit's HTTPS proxy, which is now fixed and verified against a public RPC.
@@ -32,17 +38,17 @@ The outage test mattered as much as the hosted interface. The saved kit reconstr
 
 Accomplishments
 
-The prototype has 41 passing automated tests covering exact arithmetic, input tampering, session isolation, idempotency, identity changes, unavailable RPCs, five failure-injection cases and real local transaction reconciliation. `npm test` starts its own local chain, so it runs green from a fresh clone. Fixture verification produces the expected PASS or BLOCKED outcomes. Kit checks cover extraction, altered files, origin checks, SSRF rejection, and denied signing/control RPC methods.
+The prototype has 41 passing automated tests covering exact arithmetic, input tampering, session isolation, idempotency, identity changes, unavailable RPCs, per-client rate limits and real local transaction reconciliation. `npm test` starts its own local chain, so it passes from a fresh clone. Fixture verification produces the expected PASS or BLOCKED outcomes. Kit checks cover extraction, altered files, origin checks, SSRF rejection, and denied signing/control RPC methods.
 
 The intended benefit is a repeatable way to prepare for an exit and retain an independent interface during an outage. I have not measured adoption or user comprehension yet.
 
 What's next
 
-Record a real injected-wallet test, measure latency across repeated runs, and run accessibility and comprehension studies. A five-person task-based usability protocol is included in the repository; no participant results are claimed. Mainnet broadcasting remains disabled. Wallet transactions are limited to allowlisted local test deployments. ExitDrill cannot recover keys, bypass vault restrictions, or guarantee a future withdrawal.
+Record a real injected-wallet test and run full accessibility and comprehension studies. The available in-app browser has no compatible injected wallet; the existing local transaction test uses an automated provider harness. A five-person task-based usability protocol is included in the repository; no participant results are claimed. Mainnet broadcasting remains disabled. Wallet transactions are limited to allowlisted local test deployments. ExitDrill cannot recover keys, bypass vault restrictions, or guarantee a future withdrawal.
 
 AI assistance and attribution
 
-Cursor was used for the original PRD and initial project work. Codex continued implementation in the same folder, added tests, verified browser flows, and prepared the submission. The demo uses real app captures with synthetic narration. Third-party dependencies and SavingsDai validation sources are documented in the repository.
+Cursor was used for the original PRD and initial project work. Codex continued implementation in the same folder, added tests, verified browser flows, and prepared the submission. On 24 and 25 September, Claude Code audited the code and live demo, then fixed what it found: a shared rate limit across all visitors, orphaned fork processes, zero-asset redemptions reported as PASS and unreadable result numbers. The demo uses real app captures with synthetic narration. Third-party dependencies and SavingsDai validation sources are documented in the repository.
 
 Try it
 
