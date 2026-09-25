@@ -32,7 +32,7 @@ The outage test mattered as much as the hosted interface. The saved kit reconstr
 
 Accomplishments
 
-The prototype has 34 passing automated tests covering exact arithmetic, input tampering, session isolation, idempotency, identity changes, unavailable RPCs, and real local transaction reconciliation. Fixture verification produces the expected PASS or BLOCKED outcomes. Kit checks cover extraction, altered files, origin checks, SSRF rejection, and denied signing/control RPC methods.
+The prototype has 41 passing automated tests covering exact arithmetic, input tampering, session isolation, idempotency, identity changes, unavailable RPCs, five failure-injection cases and real local transaction reconciliation. `npm test` starts its own local chain, so it runs green from a fresh clone. Fixture verification produces the expected PASS or BLOCKED outcomes. Kit checks cover extraction, altered files, origin checks, SSRF rejection, and denied signing/control RPC methods.
 
 The intended benefit is a repeatable way to prepare for an exit and retain an independent interface during an outage. I have not measured adoption or user comprehension yet.
 
